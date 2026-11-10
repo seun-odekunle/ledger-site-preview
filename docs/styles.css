@@ -1,0 +1,144 @@
+/* keepingledger.com. Ledger's colours, Apple's system font, light and dark follow the device. No scripts. */
+
+:root {
+  color-scheme: light dark;
+  --bg: #FFFFFF;
+  --text: #13141C;
+  --body: #313547;
+  --muted: #5F647B;
+  --rule: #E2E3EB;
+  --accent: #2640BF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0C0D15;
+    --text: #F0F1F6;
+    --body: #C6C8D5;
+    --muted: #9194A7;
+    --rule: #272A38;
+    --accent: #6C88F0;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: clamp(32px, 7vw, 88px) clamp(24px, 6vw, 64px) clamp(48px, 8vw, 96px);
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+p, ul, ol { margin: 0; }
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover { text-decoration-color: currentColor; }
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.brand {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.brand img { width: 32px; height: 32px; }
+
+h1 {
+  margin: 0;
+  font-size: clamp(30px, 3vw + 14px, 38px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.page-header { display: flex; flex-direction: column; gap: 10px; }
+
+.page-header .brand { margin-bottom: 18px; }
+
+.updated { font-size: 14px; color: var(--muted); }
+
+.lede { margin-top: 8px; font-size: 18px; line-height: 1.55; color: var(--body); }
+
+section { display: flex; flex-direction: column; gap: 10px; }
+
+section p,
+section ul,
+section ol {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+section ul,
+section ol { padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+
+.qa { display: flex; flex-direction: column; gap: 4px; }
+
+.qa h3 { margin: 0; font-size: 16px; font-weight: 600; color: var(--text); }
+
+.faq { display: flex; flex-direction: column; gap: 18px; }
+
+.email { font-size: 18px; font-weight: 600; }
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.site-footer a { color: var(--muted); }
+
+/* Temporary home */
+
+.home { gap: 28px; }
+
+.home .icon { width: 72px; height: 72px; }
+
+.home .intro { display: flex; flex-direction: column; gap: 10px; }
+
+.home .intro p { font-size: 19px; line-height: 1.45; color: var(--body); }
+
+.home .intro .status { font-size: 15px; color: var(--muted); }
+
+.home nav { display: flex; gap: 20px; font-size: 16px; font-weight: 500; }

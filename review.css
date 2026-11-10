@@ -1,0 +1,26 @@
+/* Preview only: the review panel. Never on keepingledger.com. */
+.rv-btn { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 1000;
+  border: 0; border-radius: 999px; padding: 13px 18px; background: var(--accent); color: var(--on-accent); font: 600 15px/1 var(--sf);
+  box-shadow: 0 10px 30px -8px rgba(10, 14, 40, 0.45); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.rv-btn b { font-variant-numeric: tabular-nums; opacity: .8; font-weight: 600; }
+.rv-panel { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); z-index: 1000;
+  width: min(420px, calc(100vw - 32px)); max-height: min(72vh, 680px); overflow: auto; overscroll-behavior: contain;
+  background: var(--bg); color: var(--text); border: 1px solid var(--rule); border-radius: 22px; box-shadow: 0 24px 60px -16px rgba(10, 14, 40, 0.45);
+  padding: 16px 16px 18px; font-family: var(--sf); display: flex; flex-direction: column; gap: 12px; }
+.rv-panel[hidden] { display: none; }
+.rv-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.rv-head h2 { margin: 0; font-size: 17px; letter-spacing: -0.02em; }
+.rv-head small { color: var(--muted); font-size: 12px; }
+.rv-intro { margin: 0; font-size: 14px; line-height: 1.5; color: var(--body); }
+.rv-item { border-top: 1px solid var(--rule); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.rv-item .t { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 15px; font-weight: 600; }
+.rv-item .t a { font-size: 13px; font-weight: 500; color: var(--accent); text-decoration: none; white-space: nowrap; }
+.rv-opts { display: flex; gap: 8px; }
+.rv-opts button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: var(--tile); color: var(--text); font: 500 14px/1 var(--sf); cursor: pointer; }
+.rv-opts button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+.rv-item textarea { width: 100%; min-height: 40px; resize: vertical; border: 1px solid var(--rule); border-radius: 10px; background: var(--bg); color: var(--text); font: 14px/1.4 var(--sf); padding: 9px 10px; }
+.rv-copy { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.rv-copy button { align-self: flex-start; border: 0; border-radius: 999px; padding: 11px 18px; background: var(--accent); color: var(--on-accent); font: 600 14px/1 var(--sf); cursor: pointer; }
+.rv-copy span { font-size: 13px; color: var(--muted); }
+.rv-copy textarea { width: 100%; min-height: 140px; font: 13px/1.4 ui-monospace, Menlo, monospace; border: 1px solid var(--rule); border-radius: 10px; background: var(--bg); color: var(--text); padding: 9px; }
+.rv-panel button:focus-visible, .rv-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
