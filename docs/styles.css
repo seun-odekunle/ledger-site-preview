@@ -10,16 +10,7 @@
   --accent: #2640BF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0C0D15;
-    --text: #F0F1F6;
-    --body: #C6C8D5;
-    --muted: #9194A7;
-    --rule: #272A38;
-    --accent: #6C88F0;
-  }
-}
+
 
 * { box-sizing: border-box; }
 

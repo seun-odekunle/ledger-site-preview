@@ -62,15 +62,4 @@
   label();
   document.body.appendChild(panel); document.body.appendChild(btn);
 
-  // Preview only: try the page in light or dark without changing the device. Auto follows the device.
-  var THEMES = ["auto", "light", "dark"], NAMES = { auto: "Auto", light: "Light", dark: "Dark" };
-  var theme = "auto"; try { theme = localStorage.getItem("ledger-preview-theme") || "auto"; } catch (e) {}
-  var tb = el("button", "rv-theme"); tb.type = "button";
-  function applyTheme() {
-    if (theme === "auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", theme);
-    tb.innerHTML = ""; tb.appendChild(document.createTextNode("Theme ")); tb.appendChild(el("b", null, NAMES[theme]));
-    tb.setAttribute("aria-label", "Theme: " + NAMES[theme] + ". Tap to change.");
-  }
-  tb.addEventListener("click", function () { theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]; try { localStorage.setItem("ledger-preview-theme", theme); } catch (e) {} applyTheme(); });
-  applyTheme(); document.body.appendChild(tb);
 })();

@@ -21,28 +21,8 @@
   --smooth: cubic-bezier(.32, .72, 0, 1);
   --snappy: cubic-bezier(.25, 1, .5, 1);
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0C0D15; --text: #F0F1F6; --body: #C6C8D5; --muted: #9194A7; --rule: #272A38; --accent: #6C88F0; --on-accent: #0B0F33; 
-    --a-page: #03040D; --a-card: #1D1F29; --a-label: #F8F8FB; --a-label2: #ABAEBE; --a-label3: #5F647B; --a-label4: #474D66;
-    --a-sep: #383941; --a-accent: #6C88F0; --a-on-accent: #0B0F33; --a-acc-cont: #111957; --a-on-acc-cont: #C5D5FC;
-    --a-due-bg: #4A2C00; --a-due-fg: #F7E091; --a-cal: #FF375F;
-    --fern: #96BC7A; --fern-p: #718164; --berry: #ED96BE; --berry-p: #987182; --iris: #9BAEF4; --iris-p: #747B9A; --jade: #63C29D;
-    --glass: rgba(34, 35, 47, 0.78); --glass-rim: rgba(255, 255, 255, 0.10); --glass-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
-    --bezel-rim: rgba(255, 255, 255, 0.14);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0C0D15; --text: #F0F1F6; --body: #C6C8D5; --muted: #9194A7; --rule: #272A38; --accent: #6C88F0; --on-accent: #0B0F33; 
-  --a-page: #03040D; --a-card: #1D1F29; --a-label: #F8F8FB; --a-label2: #ABAEBE; --a-label3: #5F647B; --a-label4: #474D66;
-  --a-sep: #383941; --a-accent: #6C88F0; --a-on-accent: #0B0F33; --a-acc-cont: #111957; --a-on-acc-cont: #C5D5FC;
-  --a-due-bg: #4A2C00; --a-due-fg: #F7E091; --a-cal: #FF375F;
-  --fern: #96BC7A; --fern-p: #718164; --berry: #ED96BE; --berry-p: #987182; --iris: #9BAEF4; --iris-p: #747B9A; --jade: #63C29D;
-  --glass: rgba(34, 35, 47, 0.78); --glass-rim: rgba(255, 255, 255, 0.10); --glass-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
-  --bezel-rim: rgba(255, 255, 255, 0.14);
-  color-scheme: dark;
-}
+
+
 
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sf); -webkit-font-smoothing: antialiased; padding-inline: 16px; padding-block: 0 72px; }
@@ -175,8 +155,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 
 /* ---------- The rest of the home page ---------- */
 :root { --tile: #F0F1F6; --tile-ink: #E4E6EE; --band: #0E1130; --band-text: #F2F3F8; --band-body: #C9CCDA; --band-muted: #9EA3BA; --band-accent: #9BB0F7; --band-rule: rgba(255, 255, 255, 0.12); --warm: #D97D21; --on-warm: #331709; --cal-work: #007AFF; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --tile: #141621; --tile-ink: #1D1F2C; --band: #161A33; --cal-work: #0A84FF; } }
-:root[data-theme="dark"] { --tile: #141621; --tile-ink: #1D1F2C; --band: #161A33; --cal-work: #0A84FF; }
+
+
 
 .facts { list-style: none; margin: 40px 0 0; padding: 22px 0; border-block: 1px solid var(--rule); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px 24px; }
 .facts li { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; }
@@ -206,12 +186,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .missing .ph { display: grid; }
 .missing img { visibility: hidden; }
 .mini img.dk, .pad img.dk { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .mini img.lt, :root:not([data-theme="light"]) .pad img.lt { display: none; }
-  :root:not([data-theme="light"]) .mini img.dk, :root:not([data-theme="light"]) .pad img.dk { display: block; }
-}
-:root[data-theme="dark"] .mini img.lt, :root[data-theme="dark"] .pad img.lt { display: none; }
-:root[data-theme="dark"] .mini img.dk, :root[data-theme="dark"] .pad img.dk { display: block; }
+
+
+
 .pair { display: flex; justify-content: center; align-items: flex-end; gap: 0; }
 .pair .mini + .mini, .pair .mini + .crop { margin-left: -60px; margin-bottom: -80px; }
 @media (max-width: 600px) { .mini { --z: 0.42; } .pad { --z: 0.2; } .pair .mini + .mini { margin-left: -90px; } }
@@ -324,8 +301,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 /* ---------- Redesign (November 2026): the animations' colours, and the new sections ---------- */
 :root { --knob: #FFFFFF; --side: #E7E8EF; --menubar: #EAEBF1; --alu: #D5D7DE; --alu-edge: #B4B8C3; --wband: #2A2C35;
   --w-cell: #1F2029; --w-label: #F8F8FB; --w-label2: #ABAEBE; --w-accent: #6C88F0; --shadow: 0 28px 50px -26px rgba(10, 14, 40, 0.42); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --knob: #33374A; --side: #12131B; --menubar: #15161F; --alu: #3A3D48; --alu-edge: #2A2C35; --wband: #393C4A; --shadow: 0 28px 50px -26px rgba(0, 0, 0, 0.7); } }
-:root[data-theme="dark"] { --knob: #33374A; --side: #12131B; --menubar: #15161F; --alu: #3A3D48; --alu-edge: #2A2C35; --wband: #393C4A; --shadow: 0 28px 50px -26px rgba(0, 0, 0, 0.7); }
+
+
 
 /* Where each section sits in the day, above its headline */
 .copy .when { margin: 0; font-size: 14px; font-weight: 600; color: var(--accent); }
