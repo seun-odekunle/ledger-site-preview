@@ -33,18 +33,29 @@
   var firstDay = 7;
   try { var loc = new Intl.Locale(navigator.language || "en-US"); var wi = loc.getWeekInfo ? loc.getWeekInfo() : loc.weekInfo; if (wi && wi.firstDay) firstDay = wi.firstDay; } catch (e) {}
   var offset = (today.getDay() - (firstDay % 7) + 7) % 7;
-  var PAST = [["--fern", "--berry", "--iris"], ["--fern", "--iris"], ["--iris", "--fern", "--jade"], ["--berry", "--fern"], ["--fern", "--jade", "--iris"], ["--iris", "--berry", "--fern"]];
+  var PAST = [["--fern", "--fern", "--berry", "--iris", "--fern"], ["--fern", "--iris", "--fern", "--jade"], ["--iris", "--fern", "--jade", "--fern", "--berry"], ["--berry", "--fern", "--fern", "--iris"], ["--fern", "--jade", "--iris", "--fern", "--fern"], ["--iris", "--berry", "--fern", "--fern"]];
   var weekEl = document.getElementById("week");
-  var todayDots;
+  // A day's bar (DayBar.swift): as long as its page is full, in the Areas' colours of what got done, gray for what's
+  // still on it. Days gone by keep only what got done; days ahead are gray.
+  function barHTML(done, open) {
+    var total = done.length + open;
+    if (!total) return "";
+    var w = 10 + Math.min(total, 12) / 12 * 24, share = done.length / total, at = 0, stops = [], parts = [];
+    done.forEach(function (c) { var q = parts.filter(function (x) { return x.c === c; })[0]; if (q) q.n++; else parts.push({ c: c, n: 1 }); });
+    parts.forEach(function (q) { var sh = q.n / done.length * share; stops.push("var(" + q.c + ") " + ((at + sh / 2) * 100).toFixed(1) + "%"); at += sh; });
+    if (parts.length && open) stops.push("var(" + parts[parts.length - 1].c + ") " + (Math.max(at - 0.02, 0) * 100).toFixed(1) + "%", "var(--a-label3) " + (Math.min(at + 0.02, 1) * 100).toFixed(1) + "%");
+    var bg = !parts.length ? "var(--a-label3)" : stops.length > 1 ? "linear-gradient(90deg," + stops.join(",") + ")" : "var(" + parts[0].c + ")";
+    return '<i style="width:' + w.toFixed(1) + "px;background:" + bg + '"></i>';
+  }
+  var todayBar;
   for (var i = 0; i < 7; i++) {
     var d = new Date(today); d.setDate(today.getDate() - offset + i);
     var cell = document.createElement("div");
     cell.className = "day" + (i === offset ? " sel" : "");
-    var dots = "";
-    if (i < offset) dots = PAST[i % PAST.length].map(function (c) { return '<i style="--c:var(' + c + ')"></i>'; }).join("");
-    cell.innerHTML = '<span class="l">' + d.toLocaleDateString("en-US", { weekday: "narrow" }) + '</span><span class="n">' + d.getDate() + '</span><span class="dots">' + dots + '</span>';
+    var bar = i < offset ? barHTML(PAST[i % PAST.length], 0) : i > offset ? barHTML([], [4, 5, 4][i % 3]) : "";
+    cell.innerHTML = '<span class="l">' + d.toLocaleDateString("en-US", { weekday: "narrow" }) + '</span><span class="n">' + d.getDate() + '</span><span class="bar">' + bar + '</span>';
     weekEl.appendChild(cell);
-    if (i === offset) todayDots = cell.querySelector(".dots");
+    if (i === offset) todayBar = cell.querySelector(".bar");
   }
 
   // ----- drawing -----
@@ -204,7 +215,7 @@
     var doneN = 0, toGo = 0, dots = [];
     state.lines.filter(function (x) { return x.kind === "habit" || x.kind === "task"; }).forEach(function (x) { if (x.done) { doneN++; dots.push(x); } else toGo++; });
     dots.sort(function (a, b) { return a.at - b.at; });
-    todayDots.innerHTML = dots.slice(0, 3).map(function (x) { return '<i style="--c:' + AREAS[x.area].m + '"></i>'; }).join("");
+    todayBar.innerHTML = barHTML(dots.map(function (x) { return AREAS[x.area].m.slice(4, -1); }), toGo);
     document.getElementById("status").textContent = "1:30" + NBSP + "PM · " + doneN + " done" + (toGo ? ", " + toGo + " to go." : ".");
   }
 

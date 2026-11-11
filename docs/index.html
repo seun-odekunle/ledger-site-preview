@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-built="redesign @ ad5da8e, Nov 11">
+<html lang="en" data-built="redesign @ c81a263, Nov 11">
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
@@ -78,7 +78,7 @@
               <div class="head">
                 <div class="greet">Afternoon, Sam</div>
                 <div class="titlerow">
-                  <h2 id="dayname">Thursday</h2>
+                  <h2><span id="dayname">Thursday</span><svg class="chev" width="14" height="9" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m1.5 1.8 4.5 4.4 4.5-4.4"/></svg></h2>
                   <div class="hctl" aria-hidden="true">
                     <span class="search glass"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="6.1"/><path d="m13.2 13.2 4.6 4.6"/></svg></span>
                     <span class="avatar glass"><span>S</span></span>
@@ -86,7 +86,6 @@
                 </div>
                 <div class="status" id="status" aria-live="polite"></div>
                 <div class="week" id="week" aria-hidden="true"></div>
-                <div class="grab" aria-hidden="true"></div>
               </div>
               <div class="seclabel" id="seclabel">Thursday’s page</div>
               <div class="card no-anim" id="card" role="list" aria-label="Today’s page"></div>
@@ -231,8 +230,8 @@
   <section class="sec stack" id="devices" aria-labelledby="h-dev">
     <div class="copy">
       <p class="when">Where it runs</p>
-      <h2 id="h-dev">On every Apple device, kept in step.</h2>
-      <p>Tick a line on your iPhone and, a moment later, it’s ticked on your iPad, your Mac and your Apple Watch. It all goes through your own iCloud, so there’s no account to make.</p>
+      <h2 id="h-dev">On your iPhone, iPad and Mac, kept in step.</h2>
+      <p>Tick a line on your iPhone and, a moment later, it’s ticked on your iPad and your Mac. It all goes through your own iCloud, so there’s no account to make.</p>
     </div>
     <div class="mo" id="moA"></div>
   </section>
@@ -242,7 +241,7 @@
       <p class="when">On your wrist</p>
       <h2 id="h-watch">Ledger on your Apple Watch.</h2>
       <p>Today’s lines on your wrist: tap one to mark it, or turn the Digital Crown to set an amount. You can log a mood there too, and it saves to Health.</p>
-      <p>Add Ledger to your watch face for what’s next on your page, today’s count, or how close a habit is to graduating.</p>
+      <p>Add Ledger to your watch face for what’s next on your page, today’s count, an amount against its target, or how close a habit is to graduating.</p>
     </div>
     <div class="mo" id="moW"></div>
   </section>
@@ -353,7 +352,7 @@
         </div>
       </div>
 </div></template>
-<template id="tpl-w"><link rel="stylesheet" href="motion.css"><div class="tile" role="group" aria-label="Ledger on an Apple Watch: today's lines, each one ticked with a tap."><div class="tilebar"><p class="hint">Tap a circle or square.</p></div><div class="watch-solo" id="watchOnly"></div></div></template>
+<template id="tpl-w"><link rel="stylesheet" href="motion.css"><div class="tile" role="group" aria-label="Ledger's Today page on an Apple Watch. Tap a line to mark it."><div class="tilebar"><p class="hint">Tap a line to mark it. Scroll for the rest of the day.</p></div><div class="watch-solo" id="watchOnly"></div></div></template>
 
   <script src="days.js" defer></script>
 </body>
