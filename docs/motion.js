@@ -33,9 +33,9 @@
   function later(k, ms, fn) { var t = setTimeout(fn, ms); timers[k].push(t); return t; }
   function clearTimers(k) { timers[k].forEach(clearTimeout); timers[k] = []; }
 
-  function onView(el, fn) {
+  function onView(el, fn, th) {
     if (!("IntersectionObserver" in window)) { fn(); return; }
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); fn(); } }); }, { threshold: 0.5 });
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); fn(); } }); }, { threshold: th || 0.5 });
     io.observe(el);
   }
 
@@ -60,10 +60,21 @@
     { id: "rent", shape: "task", title: "Pay rent", area: "home" }
   ];
   var START = { stretch: true, walk: false, rent: false };
-  var DEVS = ["mac", "ipad", "iphone", "watch"];
+  // Mac, iPad and iPhone at true relative scale; the Watch has its own section below.
+  var DEVS = ["mac", "ipad", "iphone"];
   var DEV_NAME = { mac: "Mac", ipad: "iPad", iphone: "iPhone", watch: "Apple Watch" };
   var stageA = RA.getElementById("stageA"), wrapA = RA.getElementById("wrapA");
-  var scaleA = 1, stA = {}, busy = {}, genA = 0;
+  var scaleA = 1, stA = {}, busy = {}, genA = 0, modeA = null;
+  // Where each device's line meets the cloud, in stage pixels (see the layout in motion.css). Drawn device -> cloud.
+  var LINKS = {
+    wide: { mac: "M502,400 V546", ipad: "M450,563 H478", iphone: "M553,563 H526" },
+    narrow: { ipad: "M104,57 V22 H136", iphone: "M277,173 V22 H184" }
+  };
+  var SIZE = { wide: [700, 729], narrow: [320, 352] };
+  var ICONS = '<span class="ic"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>' +
+    '<svg viewBox="0 0 16 12"><path d="M8 11.6 5.6 9.1a3.4 3.4 0 0 1 4.8 0L8 11.6Zm-4.3-4.4L2.1 5.6a8.4 8.4 0 0 1 11.8 0l-1.6 1.6a6.1 6.1 0 0 0-8.6 0ZM0 3.5a11.4 11.4 0 0 1 16 0l-1.6 1.6a9.1 9.1 0 0 0-12.8 0Z"/></svg>' +
+    '<svg viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.6" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2.2"/><path d="M24.5 4.3v4.4c.9-.3 1.5-1.2 1.5-2.2s-.6-1.9-1.5-2.2Z" fill-opacity=".45"/></svg></span>';
+  function sbHTML(time) { return '<div class="sb" aria-hidden="true"><span>' + time + "</span>" + ICONS + "</div>"; }
 
   function rowHTML(dev, L) {
     var a = AREAS[L.area];
@@ -75,24 +86,29 @@
     return '<div class="today"><div class="greet">Afternoon, Sam</div><div class="ttl">' + fWeekLong.format(today) + "</div>" +
       '<div class="stat" data-stat="' + dev + '"></div><div class="card">' + LINES.map(function (L) { return rowHTML(dev, L); }).join("") + "</div></div>";
   }
+  var NAVS = '<div class="nav on">Today</div><div class="nav">Plan</div><div class="nav">Journal</div><div class="nav">Insights</div>';
   function devHTML(dev) {
-    if (dev === "mac") return '<div class="dev mac"><div class="lid"><div class="scr"><div class="menubar"><b>Ledger</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span class="clk">1:30 PM</span></div>' +
-      '<div class="win"><div class="side"><div class="lights"><i></i><i></i><i></i></div><div class="nav on">Today</div><div class="nav">Plan</div><div class="nav">Journal</div><div class="nav">Insights</div></div>' +
-      '<div class="main">' + todayHTML(dev) + "</div></div></div></div><div class=\"base\"></div></div>";
-    if (dev === "ipad") return '<div class="dev ipad"><div class="scr"><div class="tabpill"><span class="on">Today</span><span>Plan</span><span>Journal</span><span>Insights</span></div>' + todayHTML(dev) + "</div></div>";
-    if (dev === "iphone") return '<div class="dev iphone"><div class="scr"><div class="isl"></div>' + todayHTML(dev) +
+    if (dev === "mac") return '<div class="dev mac"><div class="scr"><div class="menubar"><b>Ledger</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span class="clk">Wed 1:30 PM</span></div>' +
+      '<div class="win"><div class="side"><div class="lights"><i></i><i></i><i></i></div>' + NAVS + '</div><div class="main">' + todayHTML(dev) + "</div></div></div></div>";
+    if (dev === "ipad" && modeA === "wide") return '<div class="dev ipad land"><div class="scr">' + sbHTML("1:30") +
+      '<div class="win"><div class="side">' + NAVS + '</div><div class="main">' + todayHTML(dev) + "</div></div></div></div>";
+    if (dev === "ipad") return '<div class="dev ipad port"><div class="scr">' + sbHTML("1:30") + '<div class="tabpill"><span class="on">Today</span><span>Plan</span><span>Journal</span><span>Insights</span></div>' + todayHTML(dev) + "</div></div>";
+    return '<div class="dev iphone"><div class="scr">' + sbHTML("1:30") + todayHTML(dev) +
       '<div class="tabbar"><span class="on">Today</span><span>Plan</span><span>Journal</span><span>Insights</span></div></div></div>';
-    return '<div class="dev watch"><div class="band t"></div><div class="band b"></div><div class="body"><div class="scr"><div class="whead"><b>Today</b><span>1:30</span></div>' +
-      LINES.map(function (L) { return rowHTML("watch", L); }).join("") + '</div></div><div class="crown"></div></div>';
   }
   var CLOUD = '<div class="cloud" id="cloudA"><svg viewBox="0 0 48 32" aria-hidden="true"><path d="M13.5 27.5h22a7.6 7.6 0 0 0 1-15.1A10.6 10.6 0 0 0 16.6 9.6a8.9 8.9 0 0 0-3.1 17.9Z"/></svg><span>Your iCloud</span></div>';
+  function linksHTML() {
+    var L = LINKS[modeA], sz = SIZE[modeA], out = "";
+    Object.keys(L).forEach(function (d) { out += '<path class="base" d="' + L[d] + '"/><path class="pulse" data-dev="' + d + '" d="' + L[d] + '"/>'; });
+    return '<svg class="links" width="' + sz[0] + '" height="' + sz[1] + '" aria-hidden="true">' + out + "</svg>";
+  }
 
   function buildA() {
-    stageA.innerHTML = CLOUD + DEVS.map(devHTML).join("");
+    stageA.innerHTML = linksHTML() + CLOUD + DEVS.filter(shown).map(devHTML).join("");
     stageA.querySelectorAll(".ctl").forEach(function (b) {
-      b.addEventListener("click", function () { tapA(b.dataset.dev, b.dataset.id, false); });
+      b.addEventListener("click", function () { tapA(b.dataset.dev, b.dataset.id); });
     });
-    DEVS.forEach(function (d) { LINES.forEach(function (L) { setDone(d, L.id, stA[d][L.id], false); }); });
+    DEVS.filter(shown).forEach(function (d) { LINES.forEach(function (L) { setDone(d, L.id, stA[d][L.id], false); }); });
   }
   function ctlEl(dev, id) { return stageA.querySelector('.ctl[data-dev="' + dev + '"][data-id="' + id + '"]'); }
   function setDone(dev, id, v, animate) {
@@ -111,71 +127,64 @@
   }
   function resetStateA() { DEVS.forEach(function (d) { stA[d] = Object.assign({}, START); }); busy = {}; }
 
-  var forcedLayout = null;
   function layoutA() {
     var w = wrapA.clientWidth;
-    var mode = forcedLayout || (w < 640 ? "narrow" : "wide");
-    ["wide", "narrow", "duo"].forEach(function (c) { stageA.classList.toggle(c, c === mode); });
-    var sw = mode === "wide" ? 980 : 480, sh = mode === "wide" ? 612 : mode === "narrow" ? 652 : 490;
-    scaleA = Math.min(w / sw, mode === "duo" ? 1.25 : 99);
-    stageA.style.transform = "scale(" + scaleA + ")";
-    stageA.style.left = Math.max(0, (w - sw * scaleA) / 2) + "px";
-    wrapA.style.height = Math.round(sh * scaleA) + "px";
-  }
-  function shown(dev) { return !stageA.classList.contains("duo") || dev === "iphone" || dev === "watch"; }
-  function center(el) {
-    var r = el.getBoundingClientRect(), s = stageA.getBoundingClientRect();
-    return { x: (r.left + r.width / 2 - s.left) / scaleA, y: (r.top + r.height / 2 - s.top) / scaleA };
-  }
-  function ease(k) { return k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
-  function fly(p0, p1, c, dur, done) {
-    var d = document.createElement("i"); d.className = "spark"; stageA.appendChild(d);
-    var t0 = null, g = genA;
-    function step(t) {
-      if (g !== genA) { d.remove(); return; }
-      if (t0 === null) t0 = t;
-      var k = Math.min(1, (t - t0) / dur), e = ease(k), u = 1 - e;
-      var x = u * u * p0.x + 2 * u * e * c.x + e * e * p1.x, y = u * u * p0.y + 2 * u * e * c.y + e * e * p1.y;
-      d.style.transform = "translate(" + x + "px," + y + "px)";
-      if (k < 1) requestAnimationFrame(step); else { d.remove(); if (done) done(); }
+    var mode = w < 560 ? "narrow" : "wide";
+    if (mode !== modeA) {
+      modeA = mode;
+      ["wide", "narrow"].forEach(function (c) { stageA.classList.toggle(c, c === mode); });
+      genA++; clearTimers("A"); busy = {}; buildA();
     }
-    requestAnimationFrame(step);
+    var sz = SIZE[mode];
+    scaleA = Math.min(w / sz[0], 1);
+    stageA.style.transform = "scale(" + scaleA + ")";
+    stageA.style.left = Math.max(0, (w - sz[0] * scaleA) / 2) + "px";
+    wrapA.style.height = Math.round(sz[1] * scaleA) + "px";
   }
-  function touchAt(p) {
-    var t = document.createElement("i"); t.className = "touch"; t.style.left = p.x + "px"; t.style.top = p.y + "px";
-    stageA.appendChild(t); setTimeout(function () { t.remove(); }, 700);
+  function shown(dev) { return modeA !== "narrow" || dev !== "mac"; }
+  // A short bright dash runs along a device's line: "up" from the device to the cloud, "down" back to a device.
+  function pulse(dev, dir, dur, done) {
+    var p = stageA.querySelector('.links .pulse[data-dev="' + dev + '"]'), g = genA;
+    if (!p) { if (done) done(); return; }
+    var len = p.getTotalLength(), seg = Math.min(16, len * 0.6);
+    p.style.strokeDasharray = seg + " " + (len + seg);
+    var from = dir === "up" ? seg : -len, to = dir === "up" ? -len : seg;
+    p.style.opacity = 1;
+    var anim = p.animate([{ strokeDashoffset: from }, { strokeDashoffset: to }], { duration: dur, easing: "ease-in-out", fill: "forwards" });
+    anim.onfinish = function () { p.style.opacity = 0; anim.cancel(); if (g === genA && done) done(); };
+  }
+  function pressRow(dev, id) {
+    var b = ctlEl(dev, id), row = b && b.closest(".row"); if (!row) return;
+    row.classList.add("press"); later("A", 220, function () { row.classList.remove("press"); });
   }
   function tapA(dev, id) {
     if (busy[id]) return;
     var v = !stA[dev][id];
     setDone(dev, id, v, true);
     var others = DEVS.filter(function (d) { return d !== dev && shown(d); });
-    if (still) { others.forEach(function (d) { setDone(d, id, v, true); }); return; }
+    if (still || !p_ok()) { others.forEach(function (d) { setDone(d, id, v, true); }); return; }
     busy[id] = true;
-    var cloud = RA.getElementById("cloudA"), icon = cloud.querySelector("svg");
-    var p0 = center(ctlEl(dev, id)), pc = center(icon);
+    var cloud = RA.getElementById("cloudA");
     later("A", 120, function () {
-      fly(p0, pc, { x: p0.x, y: pc.y }, 520, function () {
+      pulse(dev, "up", 480, function () {
         cloud.classList.remove("lit"); void cloud.offsetWidth; cloud.classList.add("lit");
-        var list = others.map(function (d) { return { d: d, p: center(ctlEl(d, id)) }; })
-          .sort(function (a, b) { return Math.hypot(a.p.x - p0.x, a.p.y - p0.y) - Math.hypot(b.p.x - p0.x, b.p.y - p0.y); });
-        list.forEach(function (o, i) {
-          later("A", 160 + i * 110, function () {
-            fly(pc, o.p, { x: o.p.x, y: pc.y }, 560, function () {
-              setDone(o.d, id, v, true);
-              if (i === list.length - 1) { busy[id] = false; later("A", 400, function () { cloud.classList.remove("lit"); }); }
+        others.forEach(function (d, i) {
+          later("A", 120 + i * 140, function () {
+            pulse(d, "down", 480, function () {
+              setDone(d, id, v, true);
+              if (i === others.length - 1) { busy[id] = false; later("A", 400, function () { cloud.classList.remove("lit"); }); }
             });
           });
         });
       });
     });
   }
+  function p_ok() { return typeof Element.prototype.animate === "function"; }
   function playA() {
     genA++; clearTimers("A");
-    stageA.querySelectorAll(".spark, .touch").forEach(function (e) { e.remove(); });
     resetStateA(); buildA();
     if (still) { DEVS.forEach(function (d) { setDone(d, "walk", true, false); }); return; }
-    later("A", 650, function () { touchAt(center(ctlEl("iphone", "walk"))); });
+    later("A", 700, function () { pressRow("iphone", "walk"); });
     later("A", 820, function () { tapA("iphone", "walk"); });
   }
 
@@ -317,7 +326,7 @@
   // =====================================================================
   RA.getElementById("replayA").addEventListener("click", playA);
   RB.getElementById("replayB").addEventListener("click", playB);
-  resetStateA(); layoutA(); buildA();
+  resetStateA(); layoutA();
   buildB();
   var lastCols = B.cols;
   if ("ResizeObserver" in window) {
@@ -332,8 +341,8 @@
   // The Watch section: one watch, larger, ticked on its own.
   if (RW) {
     var ws = RW.getElementById("watchOnly");
-    ws.innerHTML = '<div class="dev watch solo"><div class="band t"></div><div class="band b"></div><div class="body"><div class="scr"><div class="whead"><b>Today</b><span>1:30</span></div>' +
-      LINES.map(function (L) { return rowHTML("watch", L); }).join("") + '</div></div><div class="crown"></div></div>';
+    ws.innerHTML = '<div class="dev watch solo"><div class="scr"><div class="whead"><b>Today</b><span>1:30</span></div>' +
+      LINES.map(function (L) { return rowHTML("watch", L); }).join("") + "</div></div>";
     ws.querySelectorAll(".ctl").forEach(function (b) {
       var L = LINES.filter(function (x) { return x.id === b.dataset.id; })[0];
       function paint(v, anim) { b.classList.toggle("no-anim-once", !anim); b.classList.toggle("is-ink", v); b.setAttribute("aria-pressed", v ? "true" : "false"); b.setAttribute("aria-label", L.title + " on Apple Watch, " + (v ? "done" : "not done")); }
@@ -341,6 +350,6 @@
       b.addEventListener("click", function () { paint(!b.classList.contains("is-ink"), true); });
     });
   }
-  onView(RA.getElementById("wrapA"), playA);
+  onView(RA.getElementById("wrapA"), playA, 0.3);
   onView(RB.getElementById("planner"), playB);
 })();

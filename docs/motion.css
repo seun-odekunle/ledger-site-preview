@@ -2,16 +2,16 @@
    never meet; colours come from the page's tokens, which inherit in. */
 :host { display: block; }
 * { box-sizing: border-box; }
-button { font-family: inherit; }
+button { font-family: inherit; font-size: inherit; }
 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 .tile { position: relative; background: var(--tile); border-radius: 32px; padding: clamp(16px, 3.4vw, 44px); min-width: 0; overflow: hidden; color: var(--text); font-family: var(--sf); }
 .tilebar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; min-height: 28px; }
 .tilebar .hint { margin: 0; font-size: 14px; color: var(--muted); }
 .replay { background: none; border: 0; color: var(--muted); font: 500 13px/1 var(--sf); cursor: pointer; padding: 6px; white-space: nowrap; }
 .replay:hover { color: var(--accent); }
-.watch-solo { display: flex; justify-content: center; padding: 96px 0; }
-.dev.watch.solo { position: relative; width: 196px; height: 238px; font-size: 15.5px; }
-@media (max-width: 520px) { .dev.watch.solo { width: 168px; height: 204px; font-size: 13.4px; } .watch-solo { padding: 84px 0; } }
+.watch-solo { display: flex; justify-content: center; padding: 16px 0 8px; }
+.dev.watch.solo { position: relative; width: 229px; height: 360px; font-size: 14.4px; }
+@media (max-width: 520px) { .dev.watch.solo { width: 191px; height: 300px; font-size: 12px; } }
 
 /* Ticks: the live day page's control, one SVG with every layer */
 .ctl .pen { fill: none; stroke: var(--p); stroke-width: 1.8; stroke-dasharray: 3 2.6; opacity: 1; transition: opacity 180ms ease; }
@@ -23,53 +23,62 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; bo
 .no-anim-once .fil, .no-anim-once .chk, .no-anim-once .pen { animation: none !important; transition: none !important; }
 @keyframes ink { 0% { transform: scale(0); } 70% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-/* ---------- 1 · Devices in step ---------- */
+/* ---------- 1 · Devices in step ----------
+   Apple's Product Bezels (MacBook Pro 14", iPad Pro 11", iPhone 18 Pro) with the live day page in each screen hole.
+   Apple's marketing guidelines: bezels as is (no shadow, tilt, crop, animation), nothing over them, true relative scale,
+   full signal/Wi-Fi/battery. Scale is 1.7 px per mm (wide) and 1.15 px per mm (narrow): Mac PNG 386 x 254 mm, iPad
+   254 x 181 mm, iPhone 74.5 x 152 mm. The sync is drawn between the devices, never on them. */
 .stage-wrap { position: relative; width: 100%; }
 .stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
-.stage.wide { width: 980px; height: 612px; }
-.stage.narrow { width: 480px; height: 652px; }
-.stage.duo { width: 480px; height: 490px; }
-.duo .mac, .duo .ipad { display: none; }
+.stage.wide { width: 700px; height: 729px; }
+.stage.narrow { width: 320px; height: 352px; }
 .dev { position: absolute; }
-.scr { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--a-page); color: var(--a-label); }
+.dev::after { content: ""; position: absolute; inset: 0; background: 0 0 / 100% 100% no-repeat; pointer-events: none; z-index: 5; }
+.scr { position: absolute; overflow: hidden; background: var(--a-page); color: var(--a-label); }
 
-.mac { z-index: 1; }
-.mac .lid { position: absolute; left: 0; right: 0; top: 0; height: var(--lidh); background: var(--bezel); border-radius: 18px 18px 6px 6px; padding: 11px; box-shadow: 0 0 0 1px var(--bezel-rim), var(--shadow); }
-.mac .lid .scr { border-radius: 7px; display: flex; flex-direction: column; }
-.mac .base { position: absolute; left: -9%; right: -9%; top: var(--lidh); height: 13px; background: linear-gradient(var(--alu), var(--alu-edge)); border-radius: 2px 2px 12px 12px; box-shadow: var(--shadow); }
-.mac .base::before { content: ""; position: absolute; left: 50%; top: 0; width: 84px; height: 5px; margin-left: -42px; border-radius: 0 0 6px 6px; background: var(--alu-edge); }
-.menubar { flex: none; height: 1.7em; display: flex; align-items: center; gap: 1.3em; padding: 0 1.1em; font-size: .82em; background: var(--menubar); color: var(--a-label); }
+.mac::after { background-image: url(images/devices/mac.png); }
+.mac .scr { left: 10.829%; top: 11.339%; width: 78.342%; height: 77.323%; border-radius: 5px 5px 0 0; display: flex; flex-direction: column; }
+.menubar { flex: none; height: 3.26%; display: flex; align-items: center; gap: 1.3em; padding: 0 1.1em; font-size: .78em; background: var(--menubar); color: var(--a-label); }
 .menubar b { font-weight: 700; }
 .menubar .clk { margin-left: auto; font-variant-numeric: tabular-nums; }
-.win { flex: 1; min-height: 0; display: grid; grid-template-columns: 11.2em minmax(0, 1fr); }
+.win { flex: 1; min-height: 0; display: grid; grid-template-columns: 11.2em minmax(0, 1fr); height: 100%; }
 .side { background: var(--side); padding: .9em .7em; display: flex; flex-direction: column; gap: .2em; }
 .lights { display: flex; gap: .45em; margin: 0 0 1.1em .35em; }
 .lights i { width: .78em; height: .78em; border-radius: 50%; background: #FF5F57; }
 .lights i:nth-child(2) { background: #FEBC2E; } .lights i:nth-child(3) { background: #28C840; }
 .nav { font-size: 1.02em; padding: .45em .7em; border-radius: .6em; color: var(--a-label); }
 .nav.on { background: color-mix(in srgb, var(--a-accent) 16%, transparent); color: var(--a-accent); font-weight: 600; }
-.mac .main { padding: 1.5em 2em; min-width: 0; }
-.mac .card { max-width: 25em; }
+.main { padding: 1.5em 2em; min-width: 0; }
+.mac .card, .ipad .card { max-width: 25em; }
 
-.ipad { z-index: 2; background: var(--bezel); border-radius: 24px; padding: 10px; box-shadow: 0 0 0 1px var(--bezel-rim), var(--shadow); }
-.ipad .scr { border-radius: 15px; padding: 3.5em 1.5em 0; }
-.tabpill { position: absolute; top: .9em; left: 50%; transform: translateX(-50%); display: inline-flex; gap: .1em; padding: .3em; border-radius: 2em; background: var(--glass); box-shadow: inset 0 0 0 .5px var(--a-sep); font-size: .82em; white-space: nowrap; }
+.ipad.land::after { background-image: url(images/devices/ipad-land.png); }
+.ipad.land .scr { left: 4.1667%; top: 5.6383%; width: 91.6667%; height: 88.7234%; border-radius: 9.5px; }
+.ipad.land .side { padding-top: 2.6em; }
+.ipad.land .main { padding-top: 2.6em; }
+.ipad.port::after { background-image: url(images/devices/ipad-port.png); }
+.ipad.port .scr { left: 5.6383%; top: 4.1667%; width: 88.7234%; height: 91.6667%; border-radius: 6.5px; padding: 3.6em 1.5em 0; }
+.tabpill { position: absolute; top: 1.7em; left: 50%; transform: translateX(-50%); display: inline-flex; gap: .1em; padding: .3em; border-radius: 2em; background: var(--glass); box-shadow: inset 0 0 0 .5px var(--a-sep); font-size: .82em; white-space: nowrap; }
 .tabpill span { padding: .35em .8em; border-radius: 2em; color: var(--a-label); }
 .tabpill span.on { color: var(--a-accent); font-weight: 600; background: color-mix(in srgb, var(--a-label) 7%, transparent); }
 
-.iphone { z-index: 3; background: var(--bezel); border-radius: 32px; padding: 6px; box-shadow: 0 0 0 1px var(--bezel-rim), var(--shadow); }
-.iphone .scr { border-radius: 27px; padding: 2.9em .95em 0; }
-.isl { position: absolute; top: .75em; left: 50%; width: 4.4em; height: 1.35em; margin-left: -2.2em; background: #000; border-radius: 1em; }
+.iphone::after { background-image: url(images/devices/iphone.png); }
+.iphone .scr { left: 5.3333%; top: 2.5%; width: 89.3333%; height: 95%; border-radius: 14.9% / 6.86%; padding: 4.6em .95em 0; }
 .tabbar { position: absolute; left: .8em; right: .8em; bottom: .8em; height: 3.7em; border-radius: 1.85em; background: var(--glass); box-shadow: inset 0 0 0 .5px var(--a-sep); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; font-size: .76em; color: var(--a-label); }
 .tabbar .on { color: var(--a-accent); font-weight: 600; }
 
-.watch { z-index: 4; }
-.watch .band { position: absolute; left: 13%; right: 13%; height: 46%; background: var(--wband); }
-.watch .band.t { bottom: 96%; border-radius: 14px 14px 4px 4px; }
-.watch .band.b { top: 96%; border-radius: 4px 4px 14px 14px; }
-.watch .body { position: absolute; inset: 0; background: var(--bezel); border-radius: 32px; padding: 7px; box-shadow: 0 0 0 1px var(--bezel-rim), var(--shadow); }
-.watch .crown { position: absolute; right: -5px; top: 26%; width: 7px; height: 20%; border-radius: 3px; background: #2C2D33; }
-.watch .scr { border-radius: 26px; background: #000; padding: .75em .55em; color: var(--w-label);
+/* Status bars: full signal, Wi-Fi and battery (Apple's rule for marketing images) */
+.sb { position: absolute; left: 0; right: 0; top: 0; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--a-label); z-index: 2; }
+.sb .ic { display: flex; align-items: center; gap: .35em; }
+.sb svg { height: .78em; width: auto; fill: currentColor; }
+.iphone .sb { height: 4.9%; font-size: 1.05em; }
+.iphone .sb > span:first-child { position: absolute; left: 13.4%; transform: translateX(-50%); }
+.iphone .sb .ic { position: absolute; right: 7.6%; gap: .3em; }
+.iphone .sb svg { height: .72em; }
+.ipad .sb { height: 2.2em; padding: 0 1.6em; font-size: .8em; }
+
+/* Apple Watch (Series 11, 46 mm): the Watch section, on its own */
+.watch::after { background-image: url(images/devices/watch.png); }
+.watch .scr { left: 12.857%; top: 21.818%; width: 74.286%; height: 56.364%; border-radius: 22% / 18.5%; background: #000; padding: .75em .55em; color: var(--w-label);
   --fern: #96BC7A; --fern-p: #718164; --berry: #ED96BE; --berry-p: #987182; --iris: #9BAEF4; --iris-p: #747B9A; }
 .whead { display: flex; justify-content: space-between; align-items: baseline; margin: 0 .35em .55em; font-size: 1.05em; }
 .whead b { color: var(--w-accent); font-weight: 600; }
@@ -78,22 +87,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; bo
 .wrow .ti { font-size: .98em; line-height: 1.12; white-space: normal; color: var(--w-label); }
 
 /* Device font sizes: one number per device, everything else in em */
-.wide .mac .lid { font-size: 10.5px; } .wide .ipad { font-size: 11px; } .wide .iphone { font-size: 9px; } .wide .watch { font-size: 9px; }
-.narrow .mac .lid { font-size: 7.6px; } .narrow .ipad { font-size: 8px; } .narrow .iphone { font-size: 7.2px; } .narrow .watch { font-size: 8.2px; }
-
-.wide .mac { left: 210px; top: 84px; width: 560px; height: 366px; --lidh: 352px; }
-.wide .ipad { left: 34px; top: 230px; width: 300px; height: 372px; }
-.wide .iphone { left: 650px; top: 264px; width: 168px; height: 340px; }
-.wide .watch { left: 848px; top: 330px; width: 112px; height: 146px; }
-.wide .cloud { left: 468px; top: 8px; }
-.narrow .mac { left: 40px; top: 70px; width: 400px; height: 266px; --lidh: 254px; }
-.narrow .ipad { left: 4px; top: 356px; width: 212px; height: 274px; }
-.narrow .iphone { left: 228px; top: 376px; width: 132px; height: 268px; }
-.narrow .watch { left: 372px; top: 430px; width: 104px; height: 136px; }
-.narrow .cloud { left: 218px; top: 4px; }
-.duo .iphone { left: 62px; top: 66px; width: 200px; height: 406px; font-size: 10.6px; }
-.duo .watch { left: 302px; top: 186px; width: 134px; height: 164px; font-size: 10.8px; }
-.duo .cloud { left: 218px; top: 4px; }
+.wide .mac { left: 22px; top: -35px; width: 656px; height: 432px; font-size: 7.4px; }
+.wide .ipad { left: 16px; top: 421px; width: 432px; height: 308px; font-size: 7.6px; }
+.wide .iphone { left: 557px; top: 470px; width: 127px; height: 260px; font-size: 6.4px; }
+.wide .cloud { left: 502px; top: 548px; }
+.narrow .ipad { left: 0; top: 60px; width: 208px; height: 292px; font-size: 6.2px; }
+.narrow .iphone { left: 234px; top: 177px; width: 86px; height: 175px; font-size: 4.4px; }
+.narrow .cloud { left: 160px; top: 7px; }
 
 .today .greet { font-size: 1em; font-weight: 600; color: var(--a-accent); letter-spacing: -0.01em; }
 .today .ttl { font-size: 2.1em; font-weight: 700; line-height: 1.15; margin-top: .12em; letter-spacing: .005em; }
@@ -110,16 +110,17 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; bo
 .sub { display: flex; align-items: center; gap: .4em; margin-top: .12em; font-size: .85em; color: var(--a-label2); white-space: nowrap; }
 .sub i { width: .55em; height: .55em; border-radius: 50%; flex: none; }
 
-.cloud { position: absolute; z-index: 0; display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 500; white-space: nowrap; }
+.cloud { position: absolute; z-index: 1; width: 90px; margin-left: -45px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--muted); font-size: 12px; font-weight: 500; white-space: nowrap; }
+.narrow .cloud { font-size: 11px; }
 .cloud svg { width: 44px; height: 30px; fill: var(--tile); stroke: currentColor; stroke-width: 1.6; overflow: visible; transition: stroke 200ms ease; }
 .cloud.lit { color: var(--accent); }
 .cloud.lit svg { animation: lift 420ms var(--smooth); }
 @keyframes lift { 0% { transform: scale(1); } 40% { transform: scale(1.12); } 100% { transform: scale(1); } }
-.spark { position: absolute; left: 0; top: 0; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; z-index: 9; pointer-events: none;
-  background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 16px 3px color-mix(in srgb, var(--accent) 45%, transparent); }
-.touch { position: absolute; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; z-index: 8; pointer-events: none;
-  background: color-mix(in srgb, var(--text) 20%, transparent); animation: touch 560ms ease-out forwards; }
-@keyframes touch { 0% { transform: scale(.4); opacity: 0; } 30% { opacity: 1; } 100% { transform: scale(1.25); opacity: 0; } }
+.links { position: absolute; left: 0; top: 0; z-index: 0; overflow: visible; pointer-events: none; }
+.links path { fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.links .base { stroke: color-mix(in srgb, var(--muted) 35%, transparent); stroke-dasharray: 2 4; }
+.links .pulse { stroke: var(--accent); stroke-width: 2.4; opacity: 0; }
+.row.press { background: color-mix(in srgb, var(--a-label) 7%, transparent); transition: background 120ms ease; }
 
 /* ---------- 2 · Planning ---------- */
 .planner { display: flex; flex-direction: column; gap: 22px; }
