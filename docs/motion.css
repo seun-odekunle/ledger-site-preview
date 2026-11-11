@@ -103,7 +103,7 @@ span.ctl { cursor: default; }
 .iphone .sb > span:first-child { position: absolute; left: 13.4%; transform: translateX(-50%); }
 .iphone .sb .ic { position: absolute; right: 7.6%; gap: .3em; }
 .iphone .main { padding-top: 3.65em; }
-.iphone .head { padding: 0 1.65em; }
+.iphone .head { padding: 0 1.3em 0 1.5em; }
 .iphone .card { margin: 0 .94em; }
 .tabbar { position: absolute; left: .94em; right: .94em; bottom: 1.24em; display: flex; gap: .47em; z-index: 3; }
 .tabs { flex: 1; height: 3.65em; border-radius: 1.82em; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; padding: 0 .24em; }
@@ -234,7 +234,7 @@ div.wrow { cursor: default; }
 /* Device font sizes: one number per device, everything else in em */
 .wide .mac { left: 22px; top: -35px; width: 656px; height: 432px; font-size: 6.4px; }
 .wide .ipad { left: 16px; top: 421px; width: 432px; height: 308px; font-size: 6.1px; }
-.wide .iphone { left: 557px; top: 470px; width: 127px; height: 260px; font-size: 5px; }
+.wide .iphone { left: 557px; top: 470px; width: 127px; height: 260px; font-size: 5.2px; }
 .wide .cloud { left: 502px; top: 548px; }
 .narrow .ipad { left: 0; top: 0; width: 239px; height: 335px; font-size: 5.3px; }
 .narrow .iphone { left: 202px; top: 347px; width: 98px; height: 201px; font-size: 4px; }

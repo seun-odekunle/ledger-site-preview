@@ -304,7 +304,8 @@
       genA++; clearTimers("A"); busy = {}; buildA();
     }
     var sz = SIZE[mode];
-    scaleA = Math.min(w / sz[0], 1);
+    // Grows with the tile (all three together, so their sizes stay true to each other), up to 1.35x.
+    scaleA = Math.min(w / sz[0], 1.35);
     stageA.style.transform = "scale(" + scaleA + ")";
     stageA.style.left = Math.max(0, (w - sz[0] * scaleA) / 2) + "px";
     wrapA.style.height = Math.round(sz[1] * scaleA) + "px";
@@ -566,6 +567,18 @@
     wlist.querySelectorAll(".ctl").forEach(function (c) { c.classList.add("no-anim-once"); });
     wpaint(false);
   }
-  onView(RA.getElementById("wrapA"), playA, 0.3);
+  // Plays once the iPhone, where the autoplay ticks, is on screen (the scene can be taller than the window).
+  (function () {
+    var played = false;
+    function check() {
+      if (played) return;
+      var ph = stageA.querySelector(".iphone"); if (!ph) return;
+      var r = ph.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight;
+      var seen = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+      if (r.height && seen >= r.height * 0.7) { played = true; window.removeEventListener("scroll", check); window.removeEventListener("resize", check); playA(); }
+    }
+    window.addEventListener("scroll", check, { passive: true }); window.addEventListener("resize", check);
+    check();
+  })();
   onView(RB.getElementById("planner"), playB);
 })();
