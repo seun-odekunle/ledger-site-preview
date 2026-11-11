@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-built="redesign @ 27e8d2d, Nov 9">
+<html lang="en" data-built="redesign @ f82ec88, Nov 11">
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
@@ -117,6 +117,35 @@
     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8-9.1 9.1-8-8Z"/><circle cx="8" cy="8" r="1.4"/></svg>$29.99 once, no subscription</li>
     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M5 6.5h10.5a1 1 0 0 1 1 1V15H4V7.5a1 1 0 0 1 1-1ZM2.5 17.5h12"/><rect x="17.5" y="9" width="4.5" height="9.5" rx="1.2"/></svg>iPhone, iPad, Mac and Apple Watch</li>
   </ul>
+
+  <!-- Prototype (2026-11-11): Bevel's pattern. One phone, three short lines; the active line plays its clip, and its
+       ring is the clip's progress. Light and dark takes swap with the visitor's theme. -->
+  <section class="days" id="days" aria-labelledby="h-days">
+    <div class="days-copy">
+      <h2 id="h-days">See it. Settle it. Plan the next.</h2>
+      <ol class="days-list">
+        <li><button type="button" class="days-item" data-i="0" aria-pressed="true">
+          <svg class="days-ring" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle class="fill" cx="12" cy="12" r="10"/></svg>
+          <span><b>Settle it.</b> A few minutes at the end of the day: what got done, a few words, tomorrow set.</span></button></li>
+        <li><button type="button" class="days-item" data-i="1" aria-pressed="false">
+          <svg class="days-ring" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle class="fill" cx="12" cy="12" r="10"/></svg>
+          <span><b>On your pace.</b> Plan the days ahead every week, every ten days, whatever suits you.</span></button></li>
+        <li><button type="button" class="days-item" data-i="2" aria-pressed="false">
+          <svg class="days-ring" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle class="fill" cx="12" cy="12" r="10"/></svg>
+          <span><b>No judging.</b> It shows what happened. A day off costs nothing.</span></button></li>
+      </ol>
+    </div>
+    <div class="days-stage">
+      <div class="days-phone">
+        <div class="days-top"><span class="days-island"></span></div>
+        <div class="days-screen">
+          <video class="days-view is-on" data-step="0" muted playsinline preload="metadata" aria-label="Ledger’s day review: a mood, what got done, a few words for the Journal, and tomorrow."></video>
+          <img class="days-view" data-step="1" alt="Planning: a look back at the last 7 days before planning the days ahead.">
+          <img class="days-view" data-step="2" alt="A habit’s month: reached on 6 of 11 days, with rings for how far each day got. No red, no scores.">
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="sec" id="journal" aria-labelledby="h-review">
     <div class="copy">
@@ -328,5 +357,6 @@
 </div></template>
 <template id="tpl-w"><link rel="stylesheet" href="motion.css"><div class="tile" role="group" aria-label="Ledger on an Apple Watch: today's lines, each one ticked with a tap."><div class="tilebar"><p class="hint">Tap a circle or square.</p></div><div class="watch-solo" id="watchOnly"></div></div></template>
 
+  <script src="days.js" defer></script>
 </body>
 </html>

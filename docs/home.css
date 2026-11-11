@@ -368,3 +368,25 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .faq details p { margin: 0 0 20px; max-width: 42rem; font-size: 16px; line-height: 1.6; color: var(--body); }
 @media (max-width: 900px) { .faq { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .faq summary::after { transition: none; } }
+
+/* ---------- Prototype: one phone, three lines (Bevel's pattern), 2026-11-11 ---------- */
+.days { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px 72px; align-items: center; padding-block: clamp(64px, 10vw, 128px) 0; }
+.days-copy { display: flex; flex-direction: column; gap: 28px; max-width: 30rem; }
+.days-copy h2 { margin: 0; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.06; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
+.days-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.days-item { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 14px; align-items: start; width: 100%; text-align: left; background: none; border: 0; border-radius: 16px; padding: 14px 16px; font: inherit; font-size: 17px; line-height: 1.5; color: var(--muted); cursor: pointer; transition: background .3s var(--smooth), color .3s var(--smooth); }
+.days-item b { color: var(--text); font-weight: 600; }
+.days-item[aria-pressed="true"] { background: var(--tile); color: var(--body); }
+.days-item:hover { color: var(--body); }
+.days-ring { width: 24px; height: 24px; margin-top: 1px; transform: rotate(-90deg); }
+.days-ring circle { fill: none; stroke-width: 2.4; stroke: var(--rule); }
+.days-ring .fill { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 62.83; stroke-dashoffset: 62.83; }
+.days-stage { background: var(--tile); border-radius: 32px; padding: clamp(28px, 5vw, 64px) 16px; display: grid; place-items: center; min-width: 0; }
+.days-phone { width: min(300px, 72vw); background: var(--bezel); border-radius: 50px; padding: 11px; box-shadow: 0 0 0 1px var(--bezel-rim), 0 30px 60px -20px rgba(10, 14, 40, .35); }
+.days-top { height: 34px; display: grid; place-items: center; background: var(--a-page); border-radius: 40px 40px 0 0; }
+.days-island { width: 34%; height: 22px; border-radius: 12px; background: #000; }
+.days-screen { position: relative; aspect-ratio: 664 / 1348; background: var(--a-page); border-radius: 0 0 40px 40px; overflow: hidden; }
+.days-view { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .45s var(--smooth); }
+.days-view.is-on { opacity: 1; }
+@media (max-width: 860px) { .days { grid-template-columns: minmax(0, 1fr); } .days-copy { max-width: none; } }
+@media (prefers-reduced-motion: reduce) { .days-view, .days-item { transition: none; } }
