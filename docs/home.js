@@ -261,9 +261,9 @@
   function fit() {
     var col = wrap.parentNode.getBoundingClientRect().width;
     var maxH = Math.max(560, window.innerHeight - 230);
-    scale = Math.min(1, col / 426, maxH / 898);
+    scale = Math.min(1, col / 450, maxH / 920);
     device.style.transform = "scale(" + scale + ")";
-    wrap.style.width = (426 * scale) + "px"; wrap.style.height = (898 * scale) + "px";
+    wrap.style.width = (450 * scale) + "px"; wrap.style.height = (920 * scale) + "px";
   }
   if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap.parentNode); else window.addEventListener("resize", fit);
   window.addEventListener("resize", fit);

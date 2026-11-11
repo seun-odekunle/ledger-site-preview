@@ -59,9 +59,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 }
 
 /* ---------- The phone ---------- */
-.device { position: absolute; top: 0; left: 0; width: 426px; height: 898px; transform-origin: 0 0; border-radius: 66px; background: var(--bezel); padding: 12px; box-shadow: 0 0 0 1px var(--bezel-rim), 0 30px 60px -20px rgba(10, 14, 40, 0.35); }
-.screen { position: relative; width: 402px; height: 874px; border-radius: 54px; overflow: hidden; background: var(--a-page); color: var(--a-label); font-family: var(--sf); isolation: isolate; }
-.island { position: absolute; top: 11px; left: 50%; width: 124px; height: 36px; margin-left: -62px; background: #000; border-radius: 20px; z-index: 6; }
+/* Apple's iPhone 18 Pro bezel (Apple Design Resources, Product Bezels) laid over the screen. The PNG's screen hole is
+   1206 x 2622 at (72, 69) in a 1350 x 2760 image: 402 x 874 pt at (24, 23) in a 450 x 920 pt phone. The island is part
+   of the PNG, so no island is drawn. Apple's marketing guidelines: use the bezel as is (no shadow, reflection, tilt,
+   crop or animation), nothing on top of it or overlapping it, full signal/Wi-Fi/battery in the status bar. */
+.device { position: absolute; top: 0; left: 0; width: 450px; height: 920px; transform-origin: 0 0; }
+.device::after, .mini::after, .days-phone::after { content: ""; position: absolute; inset: 0; background: url(images/devices/iphone.png) 0 0 / 100% 100% no-repeat; pointer-events: none; z-index: 20; }
+.screen { position: absolute; left: 24px; top: 23px; width: 402px; height: 874px; border-radius: 60px; overflow: hidden; background: var(--a-page); color: var(--a-label); font-family: var(--sf); isolation: isolate; }
+.island { display: none; }
 .sbar { position: absolute; inset: 0 0 auto 0; height: 54px; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: 6px 34px 0 52px; background: linear-gradient(var(--a-page) 60%, transparent); pointer-events: none; }
 .sbar .clock { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
 .sbar .icons { display: flex; gap: 6px; align-items: center; color: var(--a-label); }
@@ -177,21 +182,25 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 @media (max-width: 900px) { .sec, .sec.flip { grid-template-columns: minmax(0, 1fr); } .sec.flip .copy { order: 0; } }
 
 /* Screens: a drawn frame around a real Ledger Test screenshot, light or dark to match the reader */
-.mini { --z: 0.6; zoom: var(--z); width: 464px; height: 980px; border-radius: 66px; background: var(--bezel); padding: 12px; box-shadow: 0 0 0 1px var(--bezel-rim), 0 40px 80px -30px rgba(10, 14, 40, 0.45); flex: none; position: relative; }
-.mini img, .pad img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 54px; background: var(--a-page); }
-.pad { --z: 0.42; zoom: var(--z); width: 1068px; height: 1412px; border-radius: 52px; background: var(--bezel); padding: 18px; box-shadow: 0 0 0 1px var(--bezel-rim), 0 40px 80px -30px rgba(10, 14, 40, 0.45); flex: none; position: relative; }
-.pad img { border-radius: 36px; }
-.ph { display: none; position: absolute; inset: 12px; border-radius: 54px; background: var(--a-page); color: var(--a-label2); place-items: center; text-align: center; padding: 60px; font-size: 30px; line-height: 1.35; }
-.pad .ph { inset: 18px; border-radius: 36px; font-size: 40px; }
+.mini { --z: 0.6; zoom: var(--z); width: 450px; height: 920px; flex: none; position: relative; }
+.mini img, .pad img { display: block; position: absolute; left: 5.3333%; top: 2.5%; width: 89.3333%; height: 95%; object-fit: cover; border-radius: 60px; background: var(--a-page); }
+/* Apple's iPad Pro 13" (M5) bezel: screen hole 2064 x 2752 at (118, 124) in 2300 x 3000. */
+.pad { --z: 0.42; zoom: var(--z); width: 1068px; height: 1393px; flex: none; position: relative; }
+.pad::after { content: ""; position: absolute; inset: 0; background: url(images/devices/ipad.png) 0 0 / 100% 100% no-repeat; pointer-events: none; z-index: 20; }
+.pad img { left: 5.1304%; top: 4.1333%; width: 89.7391%; height: 91.7333%; border-radius: 28px; }
+.ph { display: none; position: absolute; inset: 2.5% 5.3333%; border-radius: 60px; background: var(--a-page); color: var(--a-label2); place-items: center; text-align: center; padding: 60px; font-size: 30px; line-height: 1.35; }
+.pad .ph { inset: 4.1333% 5.1304%; border-radius: 28px; font-size: 40px; }
 .missing .ph { display: grid; }
 .missing img { visibility: hidden; }
 .mini img.dk, .pad img.dk { display: none; }
 
 
 
-.pair { display: flex; justify-content: center; align-items: flex-end; gap: 0; }
-.pair .mini + .mini, .pair .mini + .crop { margin-left: -60px; margin-bottom: -80px; }
-@media (max-width: 600px) { .mini { --z: 0.42; } .pad { --z: 0.2; } .pair .mini + .mini { margin-left: -90px; } }
+/* Two phones side by side, never overlapping (Apple: nothing on top of a product image). */
+.pair { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; }
+.pair .mini { --z: 0.46; }
+.pair .crop { flex: 1 1 200px; width: auto; zoom: 1; }
+@media (max-width: 600px) { .mini, .pair .mini { --z: 0.38; } .pad { --z: 0.2; } .pair { gap: 12px; } }
 
 /* App crops at a little over actual size: the same line components as the hero */
 .crop { zoom: 1.15; width: 100%; max-width: 420px; }
@@ -359,10 +368,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .days-ring circle { fill: none; stroke-width: 2.4; stroke: var(--rule); }
 .days-ring .fill { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 62.83; stroke-dashoffset: 62.83; }
 .days-stage { background: var(--tile); border-radius: 32px; padding: clamp(28px, 5vw, 64px) 16px; display: grid; place-items: center; min-width: 0; }
-.days-phone { width: min(300px, 72vw); background: var(--bezel); border-radius: 50px; padding: 11px; box-shadow: 0 0 0 1px var(--bezel-rim), 0 30px 60px -20px rgba(10, 14, 40, .35); }
-.days-top { height: 34px; display: grid; place-items: center; background: var(--a-page); border-radius: 40px 40px 0 0; }
-.days-island { width: 34%; height: 22px; border-radius: 12px; background: #000; }
-.days-screen { position: relative; aspect-ratio: 664 / 1348; background: var(--a-page); border-radius: 0 0 40px 40px; overflow: hidden; }
+.days-phone { position: relative; width: min(300px, 72vw); aspect-ratio: 1350 / 2760; }
+.days-screen { position: absolute; left: 5.3333%; top: 2.5%; width: 89.3333%; height: 95%; background: var(--a-page); border-radius: 14.9% / 6.86%; overflow: hidden; }
 .days-view { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .45s var(--smooth); }
 .days-view.is-on { opacity: 1; }
 @media (max-width: 860px) { .days { grid-template-columns: minmax(0, 1fr); } .days-copy { max-width: none; } }
