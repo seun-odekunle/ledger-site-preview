@@ -24,3 +24,7 @@
 .rv-copy span { font-size: 13px; color: var(--muted); }
 .rv-copy textarea { width: 100%; min-height: 140px; font: 13px/1.4 ui-monospace, Menlo, monospace; border: 1px solid var(--rule); border-radius: 10px; background: var(--bg); color: var(--text); padding: 9px; }
 .rv-panel button:focus-visible, .rv-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.rv-theme { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 1000;
+  border: 1px solid var(--rule); border-radius: 999px; padding: 12px 16px; background: var(--bg); color: var(--text); font: 600 15px/1 var(--sf);
+  box-shadow: 0 10px 30px -8px rgba(10, 14, 40, 0.35); cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.rv-theme b { color: var(--accent); font-weight: 600; }
