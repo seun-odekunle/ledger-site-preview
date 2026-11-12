@@ -1,3 +1,9 @@
+/* THE LAUNCH SWITCH. Anything that differs between the beta and the launch is in the pages twice, marked
+   data-when="beta" or data-when="launch", and this one rule hides the version that isn't current. While Ledger is in
+   beta it hides "launch". On launch day: change "launch" to "beta" in the next line, and give the links marked
+   data-launch="App Store link" their address. (It lives here because this is the one stylesheet every page loads.) */
+[data-when="launch"] { display: none !important; }
+
 /* keepingledger.com: the menu. One floating glass bar, the same on every page (home, Privacy, Support, not found).
    Ledger's own bars in the app are glass, so the site's is too: the page shows through it, blurred and brightened,
    with light caught along its top edge and a highlight that follows the pointer (day.js sets --mx and --my on the
@@ -44,5 +50,15 @@
   .top .brand img { width: 74px; }
   .top nav { gap: 13px; font-size: 15px; }
   .top .get { padding: 10px 14px; } .top .get .long { display: none; } .top .get .short { display: inline; }
+  .top .get[data-when="launch"] { padding: 10px 11px; font-size: 14px; }   /* "Download" is longer than "Beta": a little tighter so it fits a small phone */
+}
+/* "Download app" in full wherever it fits: down to 440 px. Narrower than that, "Download". */
+@media (min-width: 440px) and (max-width: 560px) { .top .get[data-when="launch"] .long { display: inline; } .top .get[data-when="launch"] .short { display: none; } }
+/* Small phones: everything a little closer, so the launch button's "Download" fits beside the three links */
+@media (max-width: 430px) {
+  .top { padding-left: 12px; gap: 8px 9px; }
+  .top .brand img { width: 68px; }
+  .top nav { gap: 8px; font-size: 14px; }
+  .top .get[data-when="launch"] { padding: 10px 10px; }
 }
 @media (prefers-reduced-motion: reduce) { .top, .top *, .top::before { transition: none; } }

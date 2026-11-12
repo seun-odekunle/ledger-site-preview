@@ -25,7 +25,7 @@
     return [].slice.call(h.querySelectorAll(".w"));
   }
   var heads = [];
-  [".facts", "#days", "#journal", "#planning", "#weeks", "#graduate", "#health", "#devices", "#watch", "#privacy .sec", "#more", "#price", "#faq", "#evening"].forEach(function (sel) {
+  ["#join", "#days", "#journal", "#planning", "#weeks", "#graduate", "#health", "#devices", "#watch", "#privacy .sec", "#more", "#price", "#faq", "#evening"].forEach(function (sel) {
     var el = day.querySelector(sel); if (!el) return;
     el.setAttribute("data-sec", "");
     [].forEach.call(el.querySelectorAll("h2"), function (h) { heads.push({ el: h, words: inkable(h), shown: reduce }); });
