@@ -1,0 +1,101 @@
+/* keepingledger.com: the hero (November 2026). A loud headline, then a phone that plays one whole day in Ledger by
+   itself (hero.js), with light crossing the window behind it as its day goes from morning to evening, and seven glass
+   cards beside it that say what Ledger does. Two cards show at a time: one flies in when its moment happens on the
+   phone, stays about five seconds, and flies out. On a wide window the cards follow the reader down the phone.
+   Everything here is prefixed hx-, and the phone's screen lives in a shadow root (hero-app.css), so nothing meets the
+   rest of the page. Without scripts, or with Reduce Motion, the cards are a plain list under the phone. */
+.hx {
+  --page: #F2F6FF; --ink: #03040D; --hx-body: #313547; --hx-muted: #5F647B; --l3: #ABAEBE; --blue: #2640BF;
+  --k: .64;                                         /* the phone's scale; hero.js sets it here from the window's width */
+  --sw: calc(521.8px * var(--k) * 1.08); --sh: calc(1057.4px * var(--k) * 1.02);
+  position: relative; margin: -76px calc(50% - 50vw) 0; padding: 96px 16px 48px; overflow-x: clip;
+  display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; scroll-margin-top: 90px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (min-width: 700px) { .hx { --k: .8; } }
+@media (min-width: 1040px) { .hx { --k: .96; } }
+@media (min-width: 1400px) { .hx { --k: 1.28; } }
+
+/* ---------- the words ---------- */
+.hx h1 { position: relative; margin: 0; color: var(--ink); font-size: clamp(46px, 8.4vw, 112px); line-height: .94; font-weight: 700; letter-spacing: -0.04em; text-wrap: initial; }
+.hx h1 .l1, .hx h1 .l2 { display: block; } .hx h1 .l2 { color: var(--blue); }
+.hx-lede { position: relative; margin: 20px 0 0; max-width: 32em; font-size: clamp(18px, 1.8vw, 22px); line-height: 1.4; color: var(--hx-body); }
+.hx-with { position: relative; margin: clamp(26px, 4vw, 40px) 0 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 14px; font-size: 15px; line-height: 1.5; color: var(--hx-muted); }
+.hx-with b { font-weight: 600; color: var(--hx-body); } .hx-with i { width: 4px; height: 4px; border-radius: 50%; background: var(--l3); }
+@media (min-width: 1040px) {
+  .hx h1 { font-size: clamp(60px, 6.9vw, 100px); } .hx h1 .l1, .hx h1 .l2 { display: inline; }
+  .hx-lede { margin-top: 16px; }
+}
+@media (max-width: 560px) { .hx-with { flex-direction: column; gap: 2px; } .hx-with i { display: none; } }
+
+/* ---------- light across the window: a band, and a light that crosses it left to right with the phone's day ---------- */
+.hx-sky { position: absolute; left: 0; right: 0; top: 0; height: min(100%, 1280px); overflow: hidden; pointer-events: none; }
+.hx-band { position: absolute; left: 0; right: 0; top: 24%; height: 66%; background-color: rgba(153, 177, 247, .34); transition: background-color 1900ms ease;
+  -webkit-mask-image: linear-gradient(180deg, transparent, rgba(0, 0, 0, .1) 10%, rgba(0, 0, 0, .45) 26%, #000 46%, #000 56%, rgba(0, 0, 0, .5) 74%, rgba(0, 0, 0, .14) 90%, transparent);
+  mask-image: linear-gradient(180deg, transparent, rgba(0, 0, 0, .1) 10%, rgba(0, 0, 0, .45) 26%, #000 46%, #000 56%, rgba(0, 0, 0, .5) 74%, rgba(0, 0, 0, .14) 90%, transparent); }
+.hx[data-tod="a"] .hx-band { background-color: rgba(125, 156, 246, .4); } .hx[data-tod="e"] .hx-band { background-color: rgba(84, 108, 226, .4); }
+.hx-sun { position: absolute; top: 16%; left: 50%; width: max(900px, 76vw); height: 80%; margin-left: calc(max(900px, 76vw) / -2); transform: translateX(-34vw); transition: transform 3200ms cubic-bezier(.4, 0, .2, 1), opacity 700ms ease; }
+.hx[data-tod="a"] .hx-sun { transform: translateX(-4vw); } .hx[data-tod="e"] .hx-sun { transform: translateX(32vw); }
+.hx-sun i { position: absolute; inset: 0; opacity: 0; transition: opacity 1900ms ease; }
+.hx-sun .g-m { background: radial-gradient(50% 50% at 50% 50%, rgba(253, 220, 158, .85), rgba(153, 177, 247, .4) 48%, transparent 72%); }
+.hx-sun .g-a { background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, .98), rgba(112, 146, 245, .5) 46%, transparent 72%); }
+.hx-sun .g-e { background: radial-gradient(50% 50% at 50% 50%, rgba(208, 91, 166, .46), rgba(64, 92, 230, .52) 48%, transparent 72%); }
+.hx:not([data-tod]) .g-m, .hx[data-tod="m"] .g-m, .hx[data-tod="a"] .g-a, .hx[data-tod="e"] .g-e { opacity: 1; }
+
+/* ---------- the phone: a picture of a tilted phone with a see-through screen (modelled and lit in Blender; it is
+   our own model, for the website only), and the live screen fitted onto it with the matching perspective ---------- */
+.hx-stage { position: relative; width: 100%; margin-top: clamp(26px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.hx-scene { position: relative; width: var(--sw); height: var(--sh); }
+.hx-phone { position: absolute; left: 50%; top: 0; width: 521.8px; height: 1057.4px; margin-left: -260.9px; transform-origin: 50% 0; will-change: transform;
+  transform: translate(calc(var(--lx, 0) * 18px), calc(var(--ly, 0) * 10px)) scale(var(--k)) rotate(calc(var(--lx, 0) * 1.4deg)); }
+.hx-phone > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; }
+.hx-app { position: absolute; left: 0; top: 0; width: 402px; height: 874px; border-radius: 62px; overflow: hidden; background: #F0F1F6; transform-origin: 0 0;
+  transform: matrix3d(0.903514, 0.0432624, 0, -0.000172025, -0.0878577, 1.11123, 0, 3.11371e-05, 0, 0, 1, 0, 86.6925, 17.5647, 0, 1); }
+.hx-app > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }   /* shown only without scripts */
+.hx-live .hx-app { opacity: 0; transition: opacity 300ms ease; } .hx-live .hx-app.ready { opacity: 1; }
+@media (min-width: 1040px) { .hx-stage { margin-top: 26px; } }
+
+/* ---------- the cards: glass, like the menu and the app's own bars. An icon in the + button's design (a white mark on
+   a solid circle), then one sentence on two lines: the first in ink, the second in the card's own colour ---------- */
+.hx-rail { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.hx-cards { list-style: none; margin: 34px 0 0; padding: 0; width: min(100%, 1120px); display: grid; grid-template-columns: repeat(auto-fit, minmax(232px, 1fr)); gap: 14px; text-align: left; }
+.hx-card { box-sizing: border-box; display: flex; flex-direction: column; min-height: 122px; padding: 16px 18px; border-radius: 24px; color: var(--hx-body);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .24)), color-mix(in srgb, var(--page) 30%, transparent);
+  -webkit-backdrop-filter: blur(26px) saturate(1.9) brightness(1.05); backdrop-filter: blur(26px) saturate(1.9) brightness(1.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 0 0 1px rgba(255, 255, 255, .5), inset 0 -10px 16px -12px color-mix(in srgb, var(--c) 26%, transparent), 0 0 0 .5px rgba(20, 22, 40, .08), 0 22px 40px -24px rgba(10, 14, 40, .42); }
+.hx-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: #fff; }
+.hx-ic svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+.hx-card p { margin: 12px 0 0; font-size: 17.5px; line-height: 1.26; font-weight: 600; letter-spacing: -0.022em; color: var(--ink); }
+.hx-card p span { display: block; text-wrap: balance; } .hx-card p .l { color: color-mix(in srgb, var(--c) 80%, #000); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .hx-card { background: color-mix(in srgb, var(--page) 86%, #fff); } }
+
+/* With scripts and motion: the cards float beside the phone, clear of its slanted edges, two at a time. The rail is
+   the phone's own box; the cards' block sticks under the menu inside it, so the cards stay in view while the reader
+   scrolls down the phone and stop with its lower end. */
+.hx-live .hx-rail { position: absolute; left: 50%; top: 0; width: var(--sw); height: var(--sh); margin-left: calc(var(--sw) / -2); display: block; pointer-events: none; }
+.hx-live .hx-cards { position: sticky; top: 84px; width: 100%; height: calc(var(--sh) * .27 + 150px); margin: 0; display: block; --gapx: 24px; }
+.hx-live .hx-card { position: absolute; z-index: 3; width: 296px; height: 142px; min-height: 0; opacity: 0; scale: .94;
+  transform: translate(calc(var(--lx, 0) * var(--d, 1) * -10px), calc(var(--ly, 0) * var(--d, 1) * -8px));
+  transition: opacity 360ms ease, scale 360ms ease; animation: hx-bob 6.5s ease-in-out infinite alternate; animation-delay: var(--dl, 0s); }
+.hx-live .hx-card.on { opacity: 1; scale: 1; }
+@keyframes hx-bob { from { translate: 0 -5px; } to { translate: 0 6px; } }
+.hx-live .hx-card[data-slot="lu"] { top: calc(var(--sh) * .05); right: calc(83.8% + var(--gapx)); } .hx-live .hx-card[data-slot="ll"] { top: calc(var(--sh) * .175); right: calc(85.6% + var(--gapx)); }
+.hx-live .hx-card[data-slot="ru"] { top: calc(var(--sh) * .11); left: calc(96% + var(--gapx)); } .hx-live .hx-card[data-slot="rl"] { top: calc(var(--sh) * .23); left: calc(93.8% + var(--gapx)); }
+@media (min-width: 980px) and (max-width: 1339px) {
+  .hx-live .hx-cards { --gapx: 10px; } .hx-live .hx-card { width: 256px; height: 146px; padding: 15px 17px; } .hx-live .hx-card p { font-size: 16.5px; margin-top: 11px; }
+  .hx-live .hx-card[data-slot="ll"] { top: calc(var(--sh) * .215); } .hx-live .hx-card[data-slot="rl"] { top: calc(var(--sh) * .27); }
+}
+@media (min-width: 980px) and (max-width: 1099px) {
+  .hx-live .hx-card { width: 232px; height: 142px; } .hx-live .hx-card p { font-size: 15.5px; margin-top: 10px; } .hx-live .hx-ic { width: 28px; height: 28px; }
+}
+/* Narrow windows: no room beside the phone, so one card at a time sits above it */
+@media (max-width: 979px) {
+  .hx-live .hx-stage { margin-top: 166px; }
+  .hx-live .hx-rail { left: 0; top: -146px; width: 100%; height: 126px; margin: 0; }
+  .hx-live .hx-cards { position: relative; top: auto; height: 100%; }
+  .hx-live .hx-card { left: 50% !important; right: auto !important; top: 50% !important; transform: translate(-50%, -50%); animation: none; width: min(340px, calc(100vw - 32px)); height: 122px; padding: 13px 16px; }
+  .hx-live .hx-card.on:not(.cur) { opacity: 0; }
+  .hx-live .hx-card p { margin-top: 8px; font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .hx-band, .hx-sun, .hx-sun i, .hx-app { transition: none; } }

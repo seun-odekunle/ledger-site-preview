@@ -1,0 +1,48 @@
+/* keepingledger.com: the menu. One floating glass bar, the same on every page (home, Privacy, Support, not found).
+   Ledger's own bars in the app are glass, so the site's is too: the page shows through it, blurred and brightened,
+   with light caught along its top edge and a highlight that follows the pointer (day.js sets --mx and --my on the
+   home page; elsewhere the highlight sits at the top). Over the home page's evening it turns dark (.night).
+   Self-contained: it needs only --bg, --accent and --muted from the page's own stylesheet. */
+.top { position: fixed; z-index: 30; top: max(10px, env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); box-sizing: border-box;
+  width: min(660px, calc(100% - 24px)); max-width: none; margin: 0; padding: 8px 8px 8px 22px; display: flex; align-items: center; justify-content: flex-start; gap: 8px 22px;
+  border-radius: 999px; isolation: isolate; font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, .14)), color-mix(in srgb, var(--bg, #F2F6FF) 30%, transparent);
+  -webkit-backdrop-filter: blur(30px) saturate(2.1) brightness(1.06); backdrop-filter: blur(30px) saturate(2.1) brightness(1.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 0 0 1px rgba(255, 255, 255, .45), inset 0 -10px 16px -12px rgba(38, 64, 191, .2),
+    0 0 0 .5px rgba(20, 22, 40, .1), 0 24px 46px -22px rgba(10, 14, 40, .45), 0 3px 8px -3px rgba(10, 14, 40, .14);
+  transition: background 300ms ease, box-shadow 300ms ease; }
+.top::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 320ms ease;
+  background: radial-gradient(170px 80px at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, .85), rgba(255, 255, 255, 0) 70%); }
+.top:hover::before { opacity: 1; }
+.top .brand { position: relative; flex: none; display: block; margin: 0; }
+.top .brand img { display: block; width: 92px; height: auto; transition: opacity 250ms ease; }
+.top .brand img.mist { position: absolute; left: 0; top: 0; opacity: 0; }
+.top nav { margin-left: auto; display: flex; gap: 22px; font-size: 16px; font-weight: 500; }
+.top nav a { color: var(--muted, #5F647B); text-decoration: none; transition: color 200ms ease; }
+.top nav a:hover { color: var(--accent, #2640BF); }
+.top nav a[aria-current="page"] { color: #13141C; font-weight: 600; }
+.top .get { flex: none; display: inline-flex; align-items: center; padding: 11px 18px; border-radius: 999px; background: var(--accent, #2640BF); color: #F2F6FF; font-size: 15px; font-weight: 600; line-height: 1; text-decoration: none; white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28); transition: transform 200ms cubic-bezier(.25, 1, .5, 1), box-shadow 200ms ease, background 250ms ease, color 250ms ease; }
+.top .get .short { display: none; }
+.top .get:active { transform: scale(.97); }
+.top a:focus-visible { outline: 2px solid var(--accent, #2640BF); outline-offset: 3px; border-radius: 8px; }
+@media (hover: hover) { .top .get:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 10px 22px -10px rgba(38, 64, 191, .7); } }
+
+.top.night { background: linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .04)), color-mix(in srgb, #0B0F33 42%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 46px -22px rgba(0, 0, 0, .85); }
+.top.night::before { background: radial-gradient(170px 80px at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 70%); }
+.top.night .brand img { opacity: 0; } .top.night .brand img.mist { opacity: 1; }
+.top.night nav a { color: #C9D1EE; } .top.night nav a:hover { color: #fff; }
+.top.night .get { background: #E6EEFF; color: #2640BF; }
+.top.night a:focus-visible { outline-color: #99B1F7; }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .top { background: color-mix(in srgb, var(--bg, #F2F6FF) 94%, #fff); } .top.night { background: #141A4A; }
+}
+@media (max-width: 560px) {
+  .top { padding: 7px 7px 7px 14px; gap: 8px 12px; }
+  .top .brand img { width: 74px; }
+  .top nav { gap: 13px; font-size: 15px; }
+  .top .get { padding: 10px 14px; } .top .get .long { display: none; } .top .get .short { display: inline; }
+}
+@media (prefers-reduced-motion: reduce) { .top, .top *, .top::before { transition: none; } }

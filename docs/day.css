@@ -1,0 +1,101 @@
+/* keepingledger.com: the page under the hero (November 2026).
+   In Ledger, things still to come are in pencil and finished things are in ink. Here each section's heading starts in
+   pencil and is inked, word by word, as it comes into view (day.js). Everything else is simply there. The background
+   is blue.50 from Ledger's ramp, raised areas are white, and the last section is the evening, on Night.
+   Without scripts, or with Reduce Motion, the headings are inked from the start. */
+:root {
+  --bg: #F2F6FF; --tile: #FFFFFF; --rule: #D9DFF0;
+  --night: #0B0F33; --mist: #E6EEFF; --sky: #99B1F7; --pencil: #8E93AB;
+}
+::selection { background: var(--mist); color: var(--accent); }
+html { scrollbar-color: #ABAEBE transparent; }
+body { padding-bottom: 0; }
+.site { max-width: 1240px; }
+
+/* The menu is bar.css: one floating glass bar on every page. Room for it above the page: */
+.site { padding-top: 76px; }
+
+/* The brand in the words: one phrase of each heading in Ledger Blue */
+h1 b, h2 b { color: var(--accent); font-weight: inherit; }
+.copy h2, .days-copy h2, .rest h2, .faq h2 { font-size: clamp(30px, 4vw, 52px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: initial; }
+.copy .when { display: none; }
+
+/* Pencil and ink: each word of a heading is a pencil word with an ink copy over it, clipped from the right. day.js
+   sets --p to 0 on headings still below the fold and to 1 as each comes into view; --i is the word's place, so the
+   ink crosses the heading left to right. */
+.daypage [data-sec] { position: relative; scroll-margin-top: 90px; }
+.w { position: relative; display: inline-block; color: var(--pencil); }
+.w > i { position: absolute; left: 0; top: 0; font-style: normal; white-space: nowrap; color: var(--text); clip-path: inset(-12% calc((1 - var(--p, 1)) * 102%) -22% 0);
+  transition: clip-path 520ms cubic-bezier(.3, .7, .2, 1); transition-delay: calc(var(--i, 0) * 80ms); }
+.w > i.b { color: var(--accent); }
+
+.facts { border: 0; margin-top: 28px; padding-block: 26px 0; }
+
+/* Devices stand on the page itself, with no card behind them */
+.tile.bare, .days-stage { background: none; padding: 0; border-radius: 0; overflow: visible; }
+.tile.bare .replay { top: -6px; right: 0; }
+
+/* The rest of it: a list that answers the pointer, beside a phone (Bevel's "And that's not all") */
+.rest { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-areas: "h stage" "list stage"; gap: 24px clamp(28px, 6vw, 72px); align-items: start; }
+.rest h2 { grid-area: h; }
+.rest-list { grid-area: list; list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rest-stage { grid-area: stage; position: sticky; top: 96px; display: grid; place-items: center; }
+.rest-item { display: grid; grid-template-columns: minmax(0, 1fr) 36px; gap: 16px; align-items: center; width: 100%; text-align: left; border: 0; border-radius: 22px; padding: 15px 16px 16px 22px; background: transparent; color: var(--muted); font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transform: scale(.95); transform-origin: left center; transition: transform 280ms var(--snappy), background 280ms ease, box-shadow 280ms ease, color 280ms ease; }
+.rest-item b { display: block; font-size: 19px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; color: var(--body); transition: color 280ms ease; }
+.rest-item span span { display: block; margin-top: 3px; font-size: 15px; line-height: 1.45; }
+.rest-item[aria-pressed="true"] { transform: none; background: var(--tile); color: var(--body); box-shadow: 0 16px 36px -24px rgba(10, 14, 40, .4); }
+.rest-item[aria-pressed="true"] b { color: var(--text); }
+.rest-ring { width: 36px; height: 36px; overflow: visible; }
+.rest-ring circle { fill: none; stroke-width: 2; stroke: #C9CFE4; transform: rotate(-90deg); transform-origin: center; }
+.rest-ring .fill { stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 100.53; stroke-dashoffset: 100.53; }
+.rest-ring path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 250ms var(--snappy), opacity 200ms ease; }
+.rest-item[aria-pressed="true"] .rest-ring path { opacity: 0; }
+@media (hover: hover) {
+  .rest-item[aria-pressed="false"]:hover { transform: scale(.975); background: color-mix(in srgb, var(--tile) 60%, transparent); color: var(--body); }
+  .rest-item[aria-pressed="false"]:hover .rest-ring path { transform: translateX(3px); }
+}
+.rest-ph { display: grid; place-content: center; justify-items: center; gap: 6px; padding: 24px; text-align: center; background: var(--a-page); color: var(--a-label2); }
+.rest-ph b { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: var(--a-label); }
+.rest-ph span { font-size: 13px; }
+@media (max-width: 860px) { .rest { grid-template-columns: minmax(0, 1fr); grid-template-areas: "h" "stage" "list"; } .rest-stage { position: static; } .rest-stage .days-phone { width: min(230px, 60vw); } }
+
+/* A statement: the heading across the page, large */
+.sec.say { align-items: start; }
+.sec.say > h2.big { grid-column: 1 / -1; margin: 0 0 clamp(8px, 2vw, 28px); font-size: clamp(40px, 7.4vw, 96px); line-height: .98; letter-spacing: -0.045em; font-weight: 700; }
+.sec.say .copy { align-self: center; }
+
+/* The day is light until the evening: privacy is a plain section, not a dark band */
+.band { background: none; color: inherit; margin: 0; padding: 0; }
+.band .sec { max-width: none; margin: 0; padding-block: clamp(64px, 10vw, 128px) 0; }
+.band .copy p { color: var(--body); } .band a { color: var(--accent); }
+.label-card { background: var(--tile); border: 0; }
+.label-card .k { color: var(--muted); } .label-card .row svg { color: var(--accent); } .label-card p { color: var(--body); }
+.price { background: var(--tile); }
+
+/* The evening: the last section, on Night */
+.closing { text-align: left; justify-items: start; gap: 22px; margin-top: clamp(64px, 10vw, 128px); padding-block: clamp(100px, 15vw, 190px); background: var(--night); box-shadow: 0 0 0 100vmax var(--night); clip-path: inset(0 -100vmax); }
+.closing h2 { font-size: clamp(40px, 7vw, 92px); line-height: .98; letter-spacing: -0.04em; color: var(--mist); }
+.closing h2 b { color: var(--sky); }
+.closing .w { color: #5F69A0; } .closing .w > i { color: var(--mist); } .closing .w > i.b { color: var(--sky); }
+.closing p { color: #C9D1EE; font-size: clamp(18px, 1.9vw, 22px); }
+.closing .btn { background: var(--mist); color: var(--accent); margin-top: 6px; }
+.foot { border: 0; padding-block: 26px 40px; background: var(--night); box-shadow: 0 0 0 100vmax var(--night); clip-path: inset(0 -100vmax); color: #9AA3C7; }
+.foot a { color: #9AA3C7; }
+
+/* Things answer the pointer: a line leans in before it's inked, a button lifts */
+.btn { transition: transform 200ms var(--snappy), box-shadow 200ms ease; }
+.btn:active { transform: scale(.98); }
+.card .ln { transition: background 200ms ease; }
+.card .ln .strip { transition: transform 220ms var(--snappy); transform-origin: left center; }
+.ctl .pen { transition: opacity 180ms ease, stroke-dasharray 220ms ease, stroke 220ms ease; }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -12px rgba(38, 64, 191, .65); }
+  .closing .btn:hover { box-shadow: 0 12px 26px -12px rgba(0, 0, 0, .6); }
+  .card .ln:has(button.ctl):hover { background: color-mix(in srgb, var(--a-accent) 5%, var(--a-card)); }
+  .card .ln:has(button.ctl):hover .strip { transform: scaleX(1.8); }
+  .card .ln:hover button.ctl.is-pen .pen { stroke-dasharray: 5 .9; stroke: var(--m); }
+  .faq summary:hover { color: var(--accent); }
+}
+
+@media (prefers-reduced-motion: reduce) { .btn, .card .ln, .card .ln .strip, .ctl .pen, .rest-item, .rest-item *, .rest-ring path, .w > i { transition: none; } }

@@ -2,7 +2,7 @@
 
 :root {
   color-scheme: light dark;
-  --bg: #FFFFFF;
+  --bg: #F2F6FF;   /* blue.50, as the home page (day.css) */
   --text: #13141C;
   --body: #313547;
   --muted: #5F647B;
@@ -64,7 +64,7 @@ a:focus-visible {
   letter-spacing: -0.01em;
 }
 
-.brand img { width: 32px; height: 32px; }
+.brand img { display: block; width: 118px; height: auto; }   /* the wordmark */
 
 h1 {
   margin: 0;
@@ -80,6 +80,8 @@ h2 {
   font-weight: 700;
   letter-spacing: -0.01em;
 }
+
+main { padding-top: 56px; }   /* room for the menu (bar.css) */
 
 .page-header { display: flex; flex-direction: column; gap: 10px; }
 
