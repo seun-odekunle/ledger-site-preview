@@ -8,7 +8,7 @@
     ["weeks", "It keeps track, not score", "weeks"], ["graduate", "Habits you keep, then outgrow", "graduate"],
     ["journal", "The Journal", "journal"], ["health", "Health and Calendar", "health"],
     ["devices", "The same Ledger on every device", "devices"],
-    ["privacy", "Privacy", "privacy"], ["more", "The rest of it", "more"], ["faq", "Before you ask", "faq"], ["whole", "The page as a whole (order, pace, feel)", null]
+    ["privacy", "Privacy", "privacy"], ["more", "The rest of it", "more"], ["faq", "FAQs", "faq"], ["whole", "The page as a whole (order, pace, feel)", null]
   ];
   var data = {};
   try { data = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { data = {}; }

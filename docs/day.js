@@ -31,6 +31,9 @@
     el.setAttribute("data-sec", "");
     [].forEach.call(el.querySelectorAll("h2"), function (h) { heads.push({ el: h, words: inkable(h), shown: reduce }); });
   });
+  // FAQs: one answer open at a time. The shared name on each <details> does this in current browsers; this covers older ones.
+  var qs = [].slice.call(day.querySelectorAll("#faq details"));
+  qs.forEach(function (d) { d.addEventListener("toggle", function () { if (d.open) qs.forEach(function (o) { if (o !== d) o.open = false; }); }); });
   var evening = document.getElementById("evening"), ticking = false;
   function ink(h, p) { h.words.forEach(function (w) { w.style.setProperty("--p", p); }); }
   if (!reduce) heads.forEach(function (h) { if (h.el.getBoundingClientRect().top >= window.innerHeight * 0.82) ink(h, 0); else h.shown = true; });   // headings already in view stay inked
