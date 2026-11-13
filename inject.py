@@ -16,7 +16,7 @@ for name in os.listdir(out):
                lambda m: m.group(1) + m.group(2) + "?v=" + commit + m.group(3), s)
     if name == "index.html":
         s = s.replace("<html lang=\"en\">", f'<html lang="en" data-built="{built}">', 1)
-        s = s.replace("</head>", '<link rel="stylesheet" href="review.css">\n<script src="review.js" defer></script>\n</head>', 1)
+        s = s.replace("</head>", f'<link rel="stylesheet" href="review.css?v={commit}">\n<script src="review.js?v={commit}" defer></script>\n</head>', 1)
     open(p, "w", encoding="utf-8").write(s)
 # The hero's script loads the phone screen's stylesheet itself; name that with the commit too.
 hero = os.path.join(out, "hero.js")
