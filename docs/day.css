@@ -130,7 +130,10 @@ br.nb { display: none; } @media (max-width: 700px) { br.nb { display: inline; } 
 .closing h2 b { color: var(--sky); }
 .closing .w { color: #5F69A0; } .closing .w > i { color: var(--mist); } .closing .w > i.b { color: var(--sky); }
 .closing p { color: #C9D1EE; font-size: clamp(18px, 1.9vw, 22px); }
-.closing .btn { background: var(--mist); color: var(--accent); margin-top: 6px; }
+.closing .btn { background: var(--mist); color: var(--accent); margin-top: 6px; padding: 18px 30px; font-size: 18px; }
+/* At launch the button is Apple's badge; its own light outline carries it on the night ground. */
+.closing-badge { display: block; margin-top: 6px; line-height: 0; border-radius: 10px; }
+.closing .closing-badge img { display: block; width: auto; height: 56px; }
 .foot { border: 0; padding-block: 26px 40px; background: var(--night); box-shadow: 0 0 0 100vmax var(--night); clip-path: inset(0 -100vmax); color: #9AA3C7; }
 .foot a { color: #9AA3C7; }
 
