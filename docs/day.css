@@ -97,21 +97,19 @@ h1 b, h2 b { color: var(--accent); font-weight: inherit; }
 .points .badge-dot, .extras .badge-dot { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; line-height: 1; }
 .points .badge-dot svg, .extras .badge-dot svg { width: 16px; height: 16px; }
 /* The rest of it: a grid of small things, four across on a wide window and two on a phone */
-/* Each item has its padding outside the text's edge (the list's negative margin), so its hover tile can sit around it
+/* Each item's padding sits outside the text's edge (the list's negative margin), so the whole cell answers the pointer
    while the words still line up with the heading. */
 .extras { list-style: none; margin: 8px -12px 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 0; }
-.extras li { display: grid; gap: 5px; align-content: start; justify-items: start; padding: 12px; border-radius: 20px; transition: background 220ms ease, box-shadow 220ms ease, transform 220ms var(--snappy); }
-.extras .badge-dot { transition: transform 260ms var(--snappy); }
+.extras li { display: grid; gap: 5px; align-content: start; justify-items: start; padding: 12px; }
 .extras .badge-dot { margin-bottom: 7px; }
 .extras b { font-size: var(--h3); line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; color: var(--text); }
 .extras li > span:last-child { font-size: 16px; line-height: 1.45; color: var(--body); }
-@media (min-width: 900px) { .extras { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 4px; margin: 6px -16px 0; } .extras li { padding: 16px 16px 18px; border-radius: 24px; } }
-/* It answers the pointer: the item lifts onto a white tile and its badge grows a little */
-@media (hover: hover) {
-  .extras li:hover { background: var(--tile); box-shadow: 0 16px 36px -24px rgba(10, 14, 40, .4); transform: translateY(-2px); }
-  .extras li:hover .badge-dot { transform: scale(1.12); }
-}
-@media (prefers-reduced-motion: reduce) { .extras li, .extras .badge-dot { transition: none; } .extras li:hover, .extras li:hover .badge-dot { transform: none; } }
+@media (min-width: 900px) { .extras { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 4px; margin: 6px -16px 0; } .extras li { padding: 16px 16px 18px; } }
+/* It answers the pointer: at rest all twelve are at full strength. While the cursor is on one, the other eleven
+   fade back, so the one under the cursor stands out. */
+.extras li { transition: opacity 200ms ease; }
+@media (hover: hover) { .extras:has(li:hover) li:not(:hover) { opacity: .38; } }
+@media (prefers-reduced-motion: reduce) { .extras li { transition: none; } }
 .copy.wide .more { margin-top: 10px; font-size: 17px; }
 .dev-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 40px; align-items: end; }
 @media (max-width: 899px) { .dev-row { grid-template-columns: minmax(0, 1fr); justify-items: center; } .dev-row .mo { width: 100%; } }      /* one phone standing by itself in a section */
