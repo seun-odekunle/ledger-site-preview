@@ -88,6 +88,7 @@ h1 b, h2 b { color: var(--accent); font-weight: inherit; }
 .points span { font-size: 17px; line-height: 1.5; color: var(--body); }
 .month-solo { margin-inline: auto; max-width: 330px; }
 .copy .points { margin-top: 14px; }
+.days-phone.solo { margin-inline: auto; }      /* one phone standing by itself in a section */
 #grad-tile .badge-stage svg.badge { width: min(360px, 100%); }      /* the badge stands alone now, so it is larger */
 br.nb { display: none; } @media (max-width: 700px) { br.nb { display: inline; } }      /* a line break on narrow windows only */
 
