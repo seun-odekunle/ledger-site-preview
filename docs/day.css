@@ -153,3 +153,6 @@ br.nb { display: none; } @media (max-width: 700px) { br.nb { display: inline; } 
 }
 
 @media (prefers-reduced-motion: reduce) { .btn, .card .ln, .card .ln .strip, .ctl .pen, .rest-item, .rest-item *, .rest-ring path, .w > i { transition: none; } }
+
+/* One column: a section's picture sits under its text, so the next section starts well clear of it. */
+@media (max-width: 860px) { #days, #weeks, #graduate, #journal, #health, #devices, #privacy, #more, #faq { padding-top: 104px; } }
