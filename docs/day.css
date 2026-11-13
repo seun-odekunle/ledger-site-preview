@@ -94,8 +94,15 @@ h1 b, h2 b { color: var(--accent); font-weight: inherit; }
 @media (min-width: 900px) { .points.row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; align-items: start; } }
 /* An icon in Ledger's own style, as the app's badges and the hero's cards have it: a white mark on a solid circle */
 .points b.has-badge { display: flex; align-items: center; gap: 10px; }
-.points .badge-dot { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; line-height: 1; }
-.points .badge-dot svg { width: 16px; height: 16px; }
+.points .badge-dot, .extras .badge-dot { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; line-height: 1; }
+.points .badge-dot svg, .extras .badge-dot svg { width: 16px; height: 16px; }
+/* The rest of it: a grid of small things, four across on a wide window and two on a phone */
+.extras { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 20px; }
+.extras li { display: grid; gap: 5px; align-content: start; justify-items: start; }
+.extras .badge-dot { margin-bottom: 7px; }
+.extras b { font-size: var(--h3); line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; color: var(--text); }
+.extras li > span:last-child { font-size: 16px; line-height: 1.45; color: var(--body); }
+@media (min-width: 900px) { .extras { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 36px; } }
 .copy.wide .more { margin-top: 10px; font-size: 17px; }
 .dev-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 40px; align-items: end; }
 @media (max-width: 899px) { .dev-row { grid-template-columns: minmax(0, 1fr); justify-items: center; } .dev-row .mo { width: 100%; } }      /* one phone standing by itself in a section */
