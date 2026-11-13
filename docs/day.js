@@ -16,7 +16,7 @@
     var label = h.textContent.replace(/\s+/g, " ").trim(), out = "", n = 0;
     [].forEach.call(h.childNodes, function (node) {
       var blue = node.nodeType === 1 && node.tagName === "B";
-      if (node.nodeType === 1 && node.tagName === "BR") { out += "<br>"; return; }      // a heading may set its own lines
+      if (node.nodeType === 1 && node.tagName === "BR") { out += node.className ? '<br class="' + node.className + '">' : "<br>"; return; }      // a heading may set its own lines
       node.textContent.split(/\s+/).filter(Boolean).forEach(function (w) {
         var safe = w.replace(/&/g, "&amp;").replace(/</g, "&lt;");
         out += '<span class="w" aria-hidden="true" style="--i:' + (n++) + '">' + safe + "<i" + (blue ? ' class="b"' : "") + ">" + safe + "</i></span> ";

@@ -74,6 +74,14 @@ h1 b, h2 b { color: var(--accent); font-weight: inherit; }
 .sec.say { align-items: start; }
 .sec.say > h2.big { grid-column: 1 / -1; margin: 0 0 clamp(8px, 2vw, 28px); font-size: clamp(40px, 7.4vw, 96px); line-height: .98; letter-spacing: -0.045em; font-weight: 700; }
 .sec.say .copy { align-self: center; }
+/* Points under a statement: each is a line with a colour strip, as a line has in the app */
+.points { list-style: none; margin: 0; padding: 0; display: grid; gap: 26px; }
+.points li { position: relative; display: grid; gap: 5px; padding-left: 20px; }
+.points li::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 4px; border-radius: 2px; background: var(--accent); }
+.points b { font-size: clamp(19px, 1.7vw, 22px); line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; color: var(--text); }
+.points span { font-size: 17px; line-height: 1.5; color: var(--body); }
+.month-solo { margin-inline: auto; max-width: 330px; }
+br.nb { display: none; } @media (max-width: 700px) { br.nb { display: inline; } }      /* a line break on narrow windows only */
 
 /* The day is light until the evening: privacy is a plain section, not a dark band */
 .band { background: none; color: inherit; margin: 0; padding: 0; }

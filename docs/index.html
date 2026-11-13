@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-built="day-page @ a9ae616, Nov 12">
+<html lang="en" data-built="day-page @ 5400967, Nov 12">
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
@@ -130,7 +130,42 @@
     </div>
   </section>
 
-  <section class="sec" id="journal" aria-labelledby="h-review">
+  <!-- Why Ledger is different: the claim (it never judges), its proof (plain counts; a habit's month with blank days
+       and no red), and what follows (skip, pause). The graduation section comes straight after. -->
+  <section class="sec flip say" id="weeks" aria-labelledby="h-grade">
+    <h2 class="big" id="h-grade">It keeps track. <br class="nb"><b>It never judges.</b></h2>
+    <div class="copy">
+      <ul class="points">
+        <li><b>Plain counts, not scores.</b><span>Ledger tells you what happened: 4 of 5 this week, 18 of 30 this month. Nothing is rated.</span></li>
+        <li><b>A missed day is just a blank day.</b><span>No red marks, and nothing to make up.</span></li>
+        <li><b>Room for real life.</b><span>Skip a day when it isn’t happening. Pause a habit while you’re away, and pick it up when you’re back.</span></li>
+      </ul>
+    </div>
+    <div class="tile bare">
+      <div class="crop float month-solo"><div class="month" id="month" aria-label="Walk after lunch in September: done on 18 of 30 days, with the other days left blank."></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="graduate" aria-labelledby="h-grad">
+    <div class="copy">
+      <p class="when">Month by month</p>
+      <h2 id="h-grad">When a habit sticks, <b>it graduates.</b></h2>
+      <p>Write a habit the way you’d say it, “run three times a week”, and Ledger sets it up. There are four kinds: Do it, Reach it, Show up and Avoid it.</p>
+      <p>Once a habit has held for a while, Ledger offers to graduate it. It leaves your page, its history stays, and there’s room for the next one.</p>
+    </div>
+    <div class="tile bare" id="grad-tile">
+      <div class="grad-row">
+      <div class="badge-stage">
+        <svg class="badge" id="badge" viewBox="-10 -30 240 240" role="img" aria-label="Morning run’s badge: 9 of 10 weeks held, sealed, ready to graduate"></svg>
+        <div class="badge-line"><b>Morning run</b><span id="badge-sub">Health · Show up · 3× a week</span></div>
+      </div>
+      <div class="mini shot"><img class="lt" loading="lazy" src="images/shots/graduate-light.webp" alt="The Graduate sheet: what changes when a habit graduates"><div class="ph">Graduate sheet<br>(screenshot coming)</div></div>
+      </div>
+      <button class="replay" type="button" id="badge-replay">Play again</button>
+    </div>
+  </section>
+
+  <section class="sec flip" id="journal" aria-labelledby="h-review">
     <div class="copy">
       <p class="when">Tonight</p>
       <h2 id="h-review">Write it down <b>when the day ends.</b></h2>
@@ -152,42 +187,6 @@
       <p>Every week, every 10 days, or any count from 2 to 14. When it’s time, Ledger asks for a few minutes: a look back, a few words, what’s still open, then each day ahead.</p>
     </div>
     <div class="mo" id="moB"></div>
-  </section>
-
-  <section class="sec flip say" id="weeks" aria-labelledby="h-grade">
-    <h2 class="big" id="h-grade">It reports. <b>It never grades.</b></h2>
-    <div class="copy">
-      <p class="when">Week by week</p>
-      <p>Ledger shows what happened, plainly: 4 of 5 this week, 18 of 30 this month. No scores, no counters to protect, no red marks for a day off. A day with nothing marked is just a day.</p>
-      <p>Insights points out patterns as they appear, worked out on your device.</p>
-    </div>
-    <div class="tile bare">
-      <div class="pair">
-        <div class="crop float" style="max-width:300px">
-          <div class="month" id="month" aria-label="Walk after lunch in September: done on 18 of 30 days"></div>
-        </div>
-        <div class="mini shot"><img class="lt" loading="lazy" src="images/shots/insights-light.webp" alt="Insights"><div class="ph">Insights<br>(screenshot coming)</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="graduate" aria-labelledby="h-grad">
-    <div class="copy">
-      <p class="when">Month by month</p>
-      <h2 id="h-grad">When a habit sticks, <b>it graduates.</b></h2>
-      <p>Write a habit the way you’d say it, “run three times a week”, and Ledger sets it up. There are four kinds: Do it, Reach it, Show up and Avoid it.</p>
-      <p>Once a habit has held for a while, Ledger offers to graduate it. It leaves your page, its history stays, and there’s room for the next one.</p>
-    </div>
-    <div class="tile bare" id="grad-tile">
-      <div class="grad-row">
-      <div class="badge-stage">
-        <svg class="badge" id="badge" viewBox="-10 -30 240 240" role="img" aria-label="Morning run’s badge: 9 of 10 weeks held, sealed, ready to graduate"></svg>
-        <div class="badge-line"><b>Morning run</b><span id="badge-sub">Health · Show up · 3× a week</span></div>
-      </div>
-      <div class="mini shot"><img class="lt" loading="lazy" src="images/shots/graduate-light.webp" alt="The Graduate sheet: what changes when a habit graduates"><div class="ph">Graduate sheet<br>(screenshot coming)</div></div>
-      </div>
-      <button class="replay" type="button" id="badge-replay">Play again</button>
-    </div>
   </section>
 
   <section class="sec flip" id="health" aria-labelledby="h-health">
