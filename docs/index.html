@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-built="day-page @ 1290b9e, Nov 12">
+<html lang="en" data-built="day-page @ 4fd4d12, Nov 12">
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
@@ -188,16 +188,7 @@
     </div>
   </section>
 
-  <section class="sec stack" id="planning" aria-labelledby="h-plan">
-    <div class="copy">
-      <p class="when">The days ahead</p>
-      <h2 id="h-plan">Plan on <b>your own rhythm.</b></h2>
-      <p>Every week, every 10 days, or any count from 2 to 14. When it’s time, Ledger asks for a few minutes: a look back, a few words, what’s still open, then each day ahead.</p>
-    </div>
-    <div class="mo" id="moB"></div>
-  </section>
-
-  <section class="sec flip" id="health" aria-labelledby="h-health">
+  <section class="sec" id="health" aria-labelledby="h-health">
     <div class="copy">
       <p class="when">What fills it in</p>
       <h2 id="h-health">Health and Calendar <b>fill in the page.</b></h2>
@@ -335,32 +326,6 @@
 
 </div>
 <template id="tpl-a"><link rel="stylesheet" href="motion.css"><div class="tile bare" role="group" aria-label="Ledger's Today page on a Mac, an iPad and an iPhone. Ticking a line on one ticks it on the others."><div class="tilebar"><p class="hint">Tap any circle or square, on any device.</p></div><div class="stage-wrap" id="wrapA"><div class="stage wide" id="stageA"></div></div></div></template>
-<template id="tpl-b"><link rel="stylesheet" href="motion.css"><div class="tile"><div class="tilebar"><p class="hint">Pick another rhythm, then Start.</p></div>
-      <div class="planner" id="planner">
-        <div class="rhythm"><span class="lab" id="whenLab">When do you plan?</span>
-          <div class="seg" id="seg" role="radiogroup" aria-labelledby="whenLab"><span class="knob" id="knob"></span>
-            <button type="button" role="radio" data-n="7" aria-checked="true">Every week</button>
-            <button type="button" role="radio" data-n="10" aria-checked="false">Every 10 days</button>
-            <button type="button" role="radio" data-n="14" aria-checked="false">Every two weeks</button>
-          </div>
-        </div>
-        <div class="calendar" id="calendar">
-          <p class="plabel" id="plabel"></p>
-          <div class="strip" id="strip"></div>
-          <div class="legend"><span><i></i>Calendar weeks</span><span><i class="yours"></i>Your days</span></div>
-        </div>
-        <div class="lane" id="lane" aria-hidden="true"></div>
-        <div class="bottom">
-          <div class="appcard"><h3>Still open</h3><div id="tray"></div></div>
-          <div class="appcard plan" id="plan">
-            <div class="ask"><span class="t" id="askT"></span><span class="s" id="askS"></span>
-              <div class="btns"><button class="start" type="button" id="start">Start</button><span class="notnow">Not now</span></div></div>
-            <div class="done"><span class="t" id="doneT"></span><span class="s" id="doneS"></span>
-              <button class="again-link" type="button" id="unplan">Plan again</button></div>
-          </div>
-        </div>
-      </div>
-</div></template>
 <template id="tpl-w"><link rel="stylesheet" href="motion.css"><div class="tile bare" role="group" aria-label="Ledger's Today page on an Apple Watch. Tap a line to mark it."><div class="tilebar"><p class="hint">Tap a line to mark it. Scroll for the rest of the day.</p></div><div class="watch-solo" id="watchOnly"></div></div></template>
 
   <script src="days.js" defer></script>

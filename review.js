@@ -4,11 +4,11 @@
   "use strict";
   var KEY = "ledger-preview-review", BUILT = document.documentElement.dataset.built || "";
   var ITEMS = [
-    ["top", "Top of the page", "top"], ["journal", "Tonight: day review and Journal", "journal"],
-    ["planning", "The days ahead: planning animation", "planning"], ["weeks", "Week by week", "weeks"],
-    ["graduate", "Month by month: graduation", "graduate"], ["health", "Health and Calendar", "health"],
+    ["top", "The hero", "top"], ["join", "Join the beta", "join"], ["days", "Plan, get things done, reflect", "days"],
+    ["weeks", "It keeps track, not score", "weeks"], ["graduate", "Habits you keep, then outgrow", "graduate"],
+    ["journal", "The Journal", "journal"], ["health", "Health and Calendar", "health"],
     ["devices", "Every device: the sync animation", "devices"], ["watch", "Apple Watch", "watch"],
-    ["privacy", "Privacy band", "privacy"], ["more", "The rest of it", "more"], ["price", "Try it, then pay once", "price"],
+    ["privacy", "Privacy", "privacy"], ["more", "The rest of it", "more"], ["price", "Try it, then pay once", "price"],
     ["faq", "Before you ask", "faq"], ["whole", "The page as a whole (order, pace, feel)", null]
   ];
   var data = {};

@@ -1,5 +1,5 @@
-// keepingledger.com: the devices in step, planning on your own rhythm, and the Watch. Mounted into shadow roots from
-// the templates in index.html; plays once when half on screen; less motion shows the finished state.
+// keepingledger.com: the devices in step, and the Watch. Mounted into shadow roots from the templates in index.html.
+// The devices scene replays while it is on screen; less motion shows the finished state.
 (function () {
   "use strict";
   function mount(id, tpl) {
@@ -7,8 +7,8 @@
     if (!host || !t || !host.attachShadow) return null;
     var r = host.attachShadow({ mode: "open" }); r.appendChild(t.content.cloneNode(true)); return r;
   }
-  var RA = mount("moA", "tpl-a"), RB = mount("moB", "tpl-b"), RW = mount("moW", "tpl-w");
-  if (!RA || !RB) return;
+  var RA = mount("moA", "tpl-a"), RW = mount("moW", "tpl-w");
+  if (!RA) return;
   var reduceMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
   var still = reduceMQ.matches;
 
@@ -29,7 +29,7 @@
   }
   var FIRST = firstWeekday();
 
-  var timers = { A: [], B: [] };
+  var timers = { A: [] };
   function later(k, ms, fn) { var t = setTimeout(fn, ms); timers[k].push(t); return t; }
   function clearTimers(k) { timers[k].forEach(clearTimeout); timers[k] = []; }
 
@@ -371,152 +371,10 @@
     later("A", 820, function () { tapA("iphone", "walk"); });
   }
   // =====================================================================
-  // 2 · Plan on your own rhythm
-  // =====================================================================
-  var TASKS = [
-    { id: "landlord", title: "Call the landlord", area: "home" },
-    { id: "library", title: "Return library books", area: "growth" },
-    { id: "dentist", title: "Book the dentist", area: "health" }
-  ];
-  var stripEl = RB.getElementById("strip"), laneEl = RB.getElementById("lane"), trayEl = RB.getElementById("tray");
-  var calEl = RB.getElementById("calendar"), segEl = RB.getElementById("seg"), knob = RB.getElementById("knob");
-  var planEl = RB.getElementById("plan");
-  var B = { cols: 21, off: 0, n: 7, planned: false };
-
-  function sqSVG() { return '<svg viewBox="-2 -2 26 26" aria-hidden="true"><rect class="sq" x="0" y="0" width="22" height="22" rx="6"/></svg>'; }
-  function targets(n) { return [1, Math.round((n - 1) * 0.45), n - 2]; }
-
-  function buildB() {
-    B.cols = calEl.clientWidth < 560 ? 16 : 21;
-    var dow = (today.getDay() - FIRST + 7) % 7;
-    B.off = Math.max(0, Math.min(dow, B.cols - 15));
-    var start = addDays(today, -B.off);
-    stripEl.style.setProperty("--cols", B.cols); laneEl.style.setProperty("--cols", B.cols);
-    var html = "", segStart = 0;
-    for (var i = 0; i <= B.cols; i++) {
-      var d = addDays(start, i);
-      if (i === B.cols || (i > 0 && d.getDay() === FIRST)) {
-        html += '<span class="band" style="left:calc(' + (segStart / B.cols * 100) + '% + 2px);width:calc(' + ((i - segStart) / B.cols * 100) + '% - 4px)"></span>';
-        segStart = i;
-      }
-    }
-    html += '<span class="bracket" id="bracket"></span>';
-    for (var j = 0; j < B.cols; j++) {
-      var dd = addDays(start, j);
-      html += '<div class="cell' + (j === B.off ? " today" : "") + '" data-col="' + j + '"><span class="l">' + fWeekNarrow.format(dd) + '</span><span class="n">' + fDay.format(dd) + '</span><span class="mk"></span></div>';
-    }
-    stripEl.innerHTML = html;
-    trayEl.innerHTML = TASKS.map(function (t) {
-      var a = AREAS[t.area];
-      return '<div class="trow" data-t="' + t.id + '"><span class="pill" style="--p:' + a.p + '">' + sqSVG() + t.title + '</span><span class="where"></span></div>';
-    }).join("");
-    laneEl.innerHTML = "";
-    setN(B.n, false);
-    if (B.planned) place(false);
-  }
-  function placeKnob(animate) {
-    var on = segEl.querySelector('[aria-checked="true"]'); if (!on) return;
-    if (!animate) knob.style.transition = "none";
-    knob.style.left = on.offsetLeft + "px"; knob.style.width = on.offsetWidth + "px";
-    if (!animate) { void knob.offsetWidth; knob.style.transition = ""; }
-  }
-  function setN(n, animate) {
-    B.n = n;
-    segEl.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-checked", +b.dataset.n === n ? "true" : "false"); });
-    placeKnob(animate);
-    var br = RB.getElementById("bracket");
-    if (!animate) br.style.transition = "none";
-    br.style.left = "calc(" + (B.off / B.cols * 100) + "% + 1px)";
-    br.style.width = "calc(" + (n / B.cols * 100) + "% - 2px)";
-    if (!animate) { void br.offsetWidth; br.style.transition = ""; }
-    var first = today, last = addDays(today, n - 1);
-    var pl = RB.getElementById("plabel");
-    var label = range(first, last) + " · " + n + " days";
-    if (animate && !still) { pl.style.opacity = 0; later("B", 170, function () { pl.textContent = label; pl.style.opacity = 1; }); }
-    else pl.textContent = label;
-    pl.style.marginLeft = (B.off / B.cols * 100) + "%";
-    RB.getElementById("askT").textContent = "Plan your next " + n + " days?";
-    RB.getElementById("askS").textContent = range(first, last);
-    var after = new Date(last); after.setHours(18, 0, 0, 0);
-    RB.getElementById("doneT").textContent = "Planned through " + fWeekShort.format(last);
-    RB.getElementById("doneS").textContent = "Next: " + fWeekShort.format(last) + " " + fTime.format(after) + ", for " + range(addDays(today, n), addDays(today, 2 * n - 1));
-  }
-  function place(animate) {
-    B.planned = true;
-    var ts = targets(B.n);
-    TASKS.forEach(function (t, i) {
-      var go = function () {
-        var a = AREAS[t.area], col = B.off + ts[i];
-        var cell = stripEl.querySelector('.cell[data-col="' + col + '"]');
-        var chip = document.createElement("span");
-        chip.className = "pill"; chip.dataset.t = t.id; chip.style.setProperty("--p", a.p);
-        chip.innerHTML = sqSVG() + t.title;
-        chip.style.gridRow = String(i + 1);
-        if (col > B.cols * 0.6) { chip.style.gridColumn = "1 / " + (col + 2); chip.style.justifySelf = "end"; }
-        else { chip.style.gridColumn = (col + 1) + " / span 1"; chip.style.justifySelf = "start"; }
-        laneEl.appendChild(chip);
-        var row = trayEl.querySelector('[data-t="' + t.id + '"]'), from = row.querySelector(".pill"), where = row.querySelector(".where");
-        var day = addDays(today, ts[i]);
-        var done = function () {
-          cell.querySelector(".mk").style.setProperty("--m", a.m);
-          cell.querySelector(".mk").classList.add("on");
-          where.textContent = "On " + fWeekShort.format(day) + " " + fDay.format(day);
-          where.classList.add("on");
-          from.classList.remove("gone"); from.classList.add("placed");
-        };
-        if (animate && !still) {
-          var r0 = from.getBoundingClientRect(), r1 = chip.getBoundingClientRect();
-          chip.style.transform = "translate(" + (r0.left - r1.left) + "px," + (r0.top - r1.top) + "px)";
-          from.classList.add("gone");
-          void chip.offsetWidth;
-          chip.classList.add("fly"); chip.style.transform = "";
-          later("B", 690, done);
-        } else { from.classList.add("gone"); done(); }
-      };
-      if (animate && !still) later("B", i * 230, go); else go();
-    });
-    var showDone = function () { planEl.classList.add("is-done"); };
-    if (animate && !still) later("B", 3 * 230 + 760, showDone); else showDone();
-  }
-  function unplace() {
-    B.planned = false;
-    laneEl.innerHTML = "";
-    stripEl.querySelectorAll(".mk").forEach(function (m) { m.classList.remove("on"); });
-    trayEl.querySelectorAll(".pill").forEach(function (p) { p.classList.remove("gone", "placed"); });
-    trayEl.querySelectorAll(".where").forEach(function (w) { w.classList.remove("on"); w.textContent = ""; });
-    planEl.classList.remove("is-done");
-  }
-  function press(el) { if (still) return; el.classList.add("press"); later("B", 150, function () { el.classList.remove("press"); }); }
-  segEl.addEventListener("click", function (e) {
-    var b = e.target.closest("button[data-n]"); if (!b) return;
-    clearTimers("B"); if (B.planned) unplace();
-    setN(+b.dataset.n, true);
-  });
-  RB.getElementById("start").addEventListener("click", function () { if (!B.planned) { clearTimers("B"); place(true); } });
-  RB.getElementById("unplan").addEventListener("click", function () { clearTimers("B"); unplace(); });
-  function playB() {
-    clearTimers("B");
-    B.n = 7; B.planned = false; unplace(); buildB();
-    if (still) { setN(10, false); place(false); return; }
-    later("B", 650, function () { var b = segEl.querySelector('[data-n="10"]'); press(b); setN(10, true); });
-    later("B", 1900, function () { var s = RB.getElementById("start"); press(s); });
-    later("B", 2080, function () { place(true); });
-  }
-
-  // =====================================================================
   // Page
   // =====================================================================
   resetStateA(); layoutA();
-  buildB();
-  var lastCols = B.cols;
-  if ("ResizeObserver" in window) {
-    new ResizeObserver(function () { layoutA(); }).observe(wrapA);
-    new ResizeObserver(function () {
-      var cols = calEl.clientWidth < 560 ? 16 : 21;
-      if (cols !== lastCols) { lastCols = cols; clearTimers("B"); buildB(); } else placeKnob(false);
-    }).observe(calEl);
-  }
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeKnob(false); });
+  if ("ResizeObserver" in window) new ResizeObserver(function () { layoutA(); }).observe(wrapA);
 
   // The Watch section: Ledger's Today on an Apple Watch (WatchTodayView, WatchLineRow), on its own. Its lines only:
   // done ones, the Now line, open ones, then the mood. Tap a line to mark it.
@@ -580,7 +438,6 @@
     wpaint(false);
   }
   // The devices: plays once most of the iPhone, where the autoplay ticks, is on screen (the scene can be taller than the
-  // window), and replays while it stays there. The planner the same, once half of it is on screen.
+  // window), and replays while it stays there.
   loop(function () { return stageA.querySelector(".iphone") || stageA; }, 0.7, playA, 9000, stageA);
-  loop(function () { return RB.getElementById("planner"); }, 0.5, playB, 9500, RB.getElementById("planner"));
 })();
