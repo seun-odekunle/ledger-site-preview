@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-built="day-page @ 2288ad7, Nov 12">
+<html lang="en" data-built="day-page @ 2efc511, Nov 12">
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
@@ -135,9 +135,9 @@
 
   <!-- Why Ledger is different: the claim (it keeps track, not score), its proof (plain counts; a habit's month with blank days
        and no red), and what follows (skip, pause). The graduation section comes straight after. -->
-  <section class="sec flip say" id="weeks" aria-labelledby="h-grade">
-    <h2 class="big" id="h-grade">It keeps track, <br class="nb"><b>not score.</b></h2>
+  <section class="sec flip" id="weeks" aria-labelledby="h-grade">
     <div class="copy">
+      <h2 id="h-grade">It keeps track, <br><b>not score.</b></h2>
       <ul class="points">
         <li><b>Plain counts, not scores.</b><span>Ledger tells you what happened: 4 of 5 this week, 18 of 30 this month. Nothing is rated.</span></li>
         <li><b>A missed day is just a blank day.</b><span>No red marks, and nothing to make up.</span></li>
@@ -149,20 +149,22 @@
     </div>
   </section>
 
+  <!-- Graduation: the claim (habits you keep, then outgrow), how it works (Ledger offers; you decide), and what
+       follows (off your page, history kept, room for the next). The badge's ring fills week by week; one week
+       falls short, and it is sealed all the same. -->
   <section class="sec" id="graduate" aria-labelledby="h-grad">
     <div class="copy">
-      <p class="when">Month by month</p>
-      <h2 id="h-grad">When a habit sticks, <b>it graduates.</b></h2>
-      <p>Write a habit the way you’d say it, “run three times a week”, and Ledger sets it up. There are four kinds: Do it, Reach it, Show up and Avoid it.</p>
-      <p>Once a habit has held for a while, Ledger offers to graduate it. It leaves your page, its history stays, and there’s room for the next one.</p>
+      <h2 id="h-grad">Habits you keep, <br><b>then outgrow.</b></h2>
+      <ul class="points">
+        <li><b>Ledger notices when it has stuck.</b><span>When you’ve kept a habit up for long enough, Ledger offers to graduate it. You decide.</span></li>
+        <li><b>It comes off your page.</b><span>There’s nothing left to mark. Its history stays, and you can bring it back any time.</span></li>
+        <li><b>Room for the next one.</b><span>Ledger asks what’s next. It never picks a habit for you.</span></li>
+      </ul>
     </div>
     <div class="tile bare" id="grad-tile">
-      <div class="grad-row">
       <div class="badge-stage">
-        <svg class="badge" id="badge" viewBox="-10 -30 240 240" role="img" aria-label="Morning run’s badge: 9 of 10 weeks held, sealed, ready to graduate"></svg>
+        <svg class="badge" id="badge" viewBox="-10 -30 240 240" role="img" aria-label="Morning run’s badge: kept up in 9 of 10 weeks, sealed, ready to graduate"></svg>
         <div class="badge-line"><b>Morning run</b><span id="badge-sub">Health · Show up · 3× a week</span></div>
-      </div>
-      <div class="mini shot"><img class="lt" loading="lazy" src="images/shots/graduate-light.webp" alt="The Graduate sheet: what changes when a habit graduates"><div class="ph">Graduate sheet<br>(screenshot coming)</div></div>
       </div>
       <button class="replay" type="button" id="badge-replay">Play again</button>
     </div>
