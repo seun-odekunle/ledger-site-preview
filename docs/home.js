@@ -16,10 +16,16 @@
       '<span class="slot">' + (o.ctl || "") + '</span>' +
       '<span class="tt"><span class="ti">' + o.title + '</span><span class="sub">' + o.sub + '</span></span><span class="acc">' + (o.acc || "") + "</span></div>";
   }
-  function onView(el, fn) {
-    if (reduce || !("IntersectionObserver" in window)) { fn(true); return; }
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); fn(false); } }); }, { threshold: 0.5 });
-    io.observe(el);
+  // An animation plays when half of it is on screen and then again every `every` ms, for as long as it stays there.
+  // With Reduce Motion it shows its finished state once and nothing moves.
+  function loop(el, play, every) {
+    if (reduce || !("IntersectionObserver" in window)) { play(true); return; }
+    var timer = 0, on = false;
+    function go() { if (!on) return; play(false); timer = setTimeout(go, every); }
+    new IntersectionObserver(function (es) {
+      var vis = es[0].isIntersecting;
+      if (vis && !on) { on = true; go(); } else if (!vis && on) { on = false; clearTimeout(timer); }
+    }, { threshold: 0.5 }).observe(el);
   }
 
   // ----- It reports, never grades: Walk after lunch, September (a filled day when done; blank otherwise) -----
@@ -65,8 +71,7 @@
     setTimeout(function () { badge.classList.add("animate", "sealed"); sub.textContent = "9 of 10 weeks at 3×. Ready to graduate."; }, 200 + N * 190 + 150);
   }
   drawBadge();
-  onView(document.getElementById("grad-tile"), playBadge);
-  document.getElementById("badge-replay").addEventListener("click", function () { playBadge(reduce); });
+  loop(document.getElementById("grad-tile"), playBadge, 7500);
 
   // ----- Health: steps fill a Reach it line; a workout Health saw can be logged; events sit on the page -----
   var stepsCard = document.getElementById("steps-card");
@@ -94,8 +99,7 @@
   }
   stepsCard.innerHTML = stepsRow(6240, false);
   (function () { var a = stepsCard.querySelector(".arc"); a.style.strokeDasharray = (6240 / 8000 * 69.115).toFixed(2) + " 69.115"; })();
-  onView(document.getElementById("steps-tile"), playSteps);
-  document.getElementById("steps-replay").addEventListener("click", function () { playSteps(reduce); });
+  loop(document.getElementById("steps-tile"), playSteps, 6500);
 
   var walkCard = document.getElementById("walk-card"), logged = false;
   function drawWalk() {

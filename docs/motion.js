@@ -33,10 +33,24 @@
   function later(k, ms, fn) { var t = setTimeout(fn, ms); timers[k].push(t); return t; }
   function clearTimers(k) { timers[k].forEach(clearTimeout); timers[k] = []; }
 
-  function onView(el, fn, th) {
-    if (!("IntersectionObserver" in window)) { fn(); return; }
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); fn(); } }); }, { threshold: th || 0.5 });
-    io.observe(el);
+  // A scene plays when enough of it is on screen, and then again every `every` ms while it stays there. `part` returns
+  // the element to watch each time it is asked, because a scene is rebuilt when the window changes size. These scenes
+  // can also be used by hand: once a visitor touches one (`touch`), it stops replaying and is theirs. With Reduce
+  // Motion it shows its finished state once.
+  function seen(el, share) {
+    if (!el) return false;
+    var r = el.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight;
+    return r.height > 0 && Math.min(r.bottom, vh) - Math.max(r.top, 0) >= r.height * share;
+  }
+  function loop(part, share, play, every, touch) {
+    if (still) { play(); return; }
+    var last = -Infinity, theirs = false;
+    setInterval(function () {
+      if (theirs || document.hidden || !seen(part(), share)) return;
+      var now = performance.now();
+      if (now - last >= every) { last = now; play(); }
+    }, 350);
+    if (touch) touch.addEventListener("pointerdown", function () { theirs = true; });
   }
 
   var AREAS = {
@@ -492,8 +506,6 @@
   // =====================================================================
   // Page
   // =====================================================================
-  RA.getElementById("replayA").addEventListener("click", playA);
-  RB.getElementById("replayB").addEventListener("click", playB);
   resetStateA(); layoutA();
   buildB();
   var lastCols = B.cols;
@@ -567,18 +579,8 @@
     wlist.querySelectorAll(".ctl").forEach(function (c) { c.classList.add("no-anim-once"); });
     wpaint(false);
   }
-  // Plays once the iPhone, where the autoplay ticks, is on screen (the scene can be taller than the window).
-  (function () {
-    var played = false;
-    function check() {
-      if (played) return;
-      var ph = stageA.querySelector(".iphone"); if (!ph) return;
-      var r = ph.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight;
-      var seen = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-      if (r.height && seen >= r.height * 0.7) { played = true; window.removeEventListener("scroll", check); window.removeEventListener("resize", check); playA(); }
-    }
-    window.addEventListener("scroll", check, { passive: true }); window.addEventListener("resize", check);
-    check();
-  })();
-  onView(RB.getElementById("planner"), playB);
+  // The devices: plays once most of the iPhone, where the autoplay ticks, is on screen (the scene can be taller than the
+  // window), and replays while it stays there. The planner the same, once half of it is on screen.
+  loop(function () { return stageA.querySelector(".iphone") || stageA; }, 0.7, playA, 9000, stageA);
+  loop(function () { return RB.getElementById("planner"); }, 0.5, playB, 9500, RB.getElementById("planner"));
 })();
