@@ -186,7 +186,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .mini img, .pad img { display: block; position: absolute; left: 5.3333%; top: 2.5%; width: 89.3333%; height: 95%; object-fit: cover; border-radius: 60px; background: var(--a-page); }
 /* Apple's iPad Pro 13" (M5) bezel: screen hole 2064 x 2752 at (118, 124) in 2300 x 3000. */
 .pad { --z: 0.42; zoom: var(--z); width: 1068px; height: 1393px; flex: none; position: relative; }
-.pad::after { content: ""; position: absolute; inset: 0; background: url(images/devices/ipad.png) 0 0 / 100% 100% no-repeat; pointer-events: none; z-index: 20; }
 .pad img { left: 5.1304%; top: 4.1333%; width: 89.7391%; height: 91.7333%; border-radius: 28px; }
 .ph { display: none; position: absolute; inset: 2.5% 5.3333%; border-radius: 60px; background: var(--a-page); color: var(--a-label2); place-items: center; text-align: center; padding: 60px; font-size: 30px; line-height: 1.35; }
 .pad .ph { inset: 4.1333% 5.1304%; border-radius: 28px; font-size: 40px; }
