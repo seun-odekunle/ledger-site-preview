@@ -35,7 +35,7 @@
 
   // A scene plays when enough of it is on screen, and then again every `every` ms while it stays there. `part` returns
   // the element to watch each time it is asked, because a scene is rebuilt when the window changes size. These scenes
-  // can also be used by hand: once a visitor touches one (`touch`), it stops replaying and is theirs. With Reduce
+  // can also be used by hand: once a visitor touches one (any element in `touch`), it stops replaying and is theirs. With Reduce
   // Motion it shows its finished state once.
   function seen(el, share) {
     if (!el) return false;
@@ -50,7 +50,7 @@
       var now = performance.now();
       if (now - last >= every) { last = now; play(); }
     }, 350);
-    if (touch) touch.addEventListener("pointerdown", function () { theirs = true; });
+    (touch || []).forEach(function (el) { if (el) el.addEventListener("pointerdown", function () { theirs = true; }); });
   }
 
   var AREAS = {
@@ -91,11 +91,12 @@
   function lineById(id) { return LINES.filter(function (x) { return x.id === id; })[0]; }
   var TAPS = LINES.filter(function (L) { return L.tap; }).map(function (L) { return L.id; });
   var START = { run: 1 };   // done, and when (its order above the Now line); the note sits at 2
-  // Mac, iPad and iPhone at true relative scale; the Watch has its own section below.
+  // Mac, iPad and iPhone at true relative scale, joined to the cloud by lines. The Watch stands beside them in its own
+  // shadow root (W, below): it has no line drawn, but a line marked on any of the four is marked on the other three.
   var DEVS = ["mac", "ipad", "iphone"];
   var DEV_NAME = { mac: "Mac", ipad: "iPad", iphone: "iPhone", watch: "Apple Watch" };
   var stageA = RA.getElementById("stageA"), wrapA = RA.getElementById("wrapA");
-  var scaleA = 1, stA = {}, busy = {}, genA = 0, modeA = null, seqA = 3;
+  var scaleA = 1, stA = {}, busy = {}, genA = 0, modeA = null, seqA = 3, W = null;
   // Where each device's line meets the cloud, in stage pixels (see the layout in motion.css). Drawn device -> cloud.
   var LINKS = {
     wide: { mac: "M502,400 V546", ipad: "M450,563 H478", iphone: "M553,563 H526" },
@@ -345,12 +346,13 @@
     var v = !stA[dev][id];
     setDone(dev, id, v, true);
     var others = DEVS.filter(function (d) { return d !== dev && shown(d); });
-    if (still || !p_ok()) { others.forEach(function (d) { setDone(d, id, v, true); }); return; }
+    if (still || !p_ok()) { others.forEach(function (d) { setDone(d, id, v, true); }); if (W) W.set(id, v, false); return; }
     busy[id] = true;
     var cloud = RA.getElementById("cloudA");
     later("A", 120, function () {
       pulse(dev, "up", 480, function () {
         cloud.classList.remove("lit"); void cloud.offsetWidth; cloud.classList.add("lit");
+        if (W) later("A", 420, function () { W.set(id, v, true); });
         others.forEach(function (d, i) {
           later("A", 120 + i * 140, function () {
             pulse(d, "down", 480, function () {
@@ -362,13 +364,34 @@
       });
     });
   }
+  // A line marked on the Watch: the Watch has no line drawn to the cloud, so the cloud lights and the others follow.
+  function fromWatch(id, v) {
+    var others = DEVS.filter(shown);
+    if (still || !p_ok()) { others.forEach(function (d) { setDone(d, id, v, true); }); return; }
+    busy[id] = true;
+    var cloud = RA.getElementById("cloudA");
+    later("A", 420, function () {
+      cloud.classList.remove("lit"); void cloud.offsetWidth; cloud.classList.add("lit");
+      others.forEach(function (d, i) {
+        later("A", 120 + i * 140, function () {
+          pulse(d, "down", 480, function () {
+            setDone(d, id, v, true);
+            if (i === others.length - 1) { busy[id] = false; later("A", 400, function () { cloud.classList.remove("lit"); }); }
+          });
+        });
+      });
+    });
+  }
   function p_ok() { return typeof Element.prototype.animate === "function"; }
+  // The play: a line is marked on the iPhone and appears on the iPad, the Mac and the Watch; then one is marked on the
+  // Watch and appears on the other three.
   function playA() {
     genA++; clearTimers("A");
-    resetStateA(); buildA();
-    if (still) { DEVS.forEach(function (d) { setDone(d, "walk", true, false); }); return; }
+    resetStateA(); buildA(); if (W) W.reset();
+    if (still) { DEVS.forEach(function (d) { setDone(d, "walk", true, false); setDone(d, "rent", true, false); }); if (W) { W.set("walk", true, false); W.set("rent", true, false); } return; }
     later("A", 700, function () { pressRow("iphone", "walk"); });
     later("A", 820, function () { tapA("iphone", "walk"); });
+    if (W) { later("A", 3500, function () { W.show("rent"); }); later("A", 4100, function () { W.tap("rent"); }); }
   }
   // =====================================================================
   // Page
@@ -376,8 +399,8 @@
   resetStateA(); layoutA();
   if ("ResizeObserver" in window) new ResizeObserver(function () { layoutA(); }).observe(wrapA);
 
-  // The Watch section: Ledger's Today on an Apple Watch (WatchTodayView, WatchLineRow), on its own. Its lines only:
-  // done ones, the Now line, open ones, then the mood. Tap a line to mark it.
+  // The Watch: Ledger's Today on an Apple Watch (WatchTodayView, WatchLineRow). Its lines only: done ones, the Now
+  // line, open ones, then the mood. Tap a line to mark it; it is marked on the other three devices too.
   if (RW) {
     var ws = RW.getElementById("watchOnly"), wst = { run: 1 }, wseq = 3;
     var OWN = LINES.filter(function (L) { return L.kind === "habit" || L.kind === "task"; });
@@ -424,20 +447,49 @@
         el.addEventListener("transitionend", function te(e) { if (e.propertyName === "transform") { el.style.transition = ""; el.style.zIndex = ""; el.removeEventListener("transitionend", te); } });
       });
     }
+    var wscroll = RW.querySelector(".wscroll");
+    function wrow(id) { return wlist.querySelector('[data-k="' + id + '"]'); }
+    // Scrolls the Watch's list, if it has to, so a line is in view.
+    function wshow(id) {
+      var el = wrow(id); if (!el || !wscroll) return;
+      var r = el.getBoundingClientRect(), s = wscroll.getBoundingClientRect(), k = wscroll.offsetHeight ? s.height / wscroll.offsetHeight : 1;
+      var room = s.height * 0.2, by = r.bottom > s.bottom - room ? r.bottom - (s.bottom - room) : r.top < s.top + room ? r.top - (s.top + room) : 0;
+      if (Math.abs(by) > 1) wscroll.scrollBy({ top: by / (k || 1), behavior: still ? "auto" : "smooth" });
+    }
+    // Marks a line on the Watch (or clears it), as a tap there or as news from another device.
+    function wset(id, v, animate) {
+      var b = wrow(id); if (!b || !!wst[id] === !!v) return;
+      var c = b.querySelector(".ctl");
+      wst[id] = v ? wseq++ : 0;
+      c.classList.remove("no-anim-once"); c.classList.toggle("is-ink", v); c.classList.toggle("is-pen", !v);
+      b.setAttribute("aria-label", lineById(id).title + " on Apple Watch, " + (v ? "done" : "not done"));
+      if (!animate || still) { wpaint(false); wshow(id); return; }
+      later("A", 380, function () { wpaint(true); later("A", 420, function () { wshow(id); }); });
+    }
+    function wtap(id) {
+      if (busy[id]) return;
+      var v = !wst[id];
+      wset(id, v, true); fromWatch(id, v);
+    }
     wlist.querySelectorAll("button.wrow").forEach(function (b) {
-      b.addEventListener("click", function () {
-        var id = b.dataset.k, v = !wst[id], c = b.querySelector(".ctl");
-        wst[id] = v ? wseq++ : 0;
-        c.classList.remove("no-anim-once"); c.classList.toggle("is-ink", v); c.classList.toggle("is-pen", !v);
-        b.setAttribute("aria-label", lineById(id).title + " on Apple Watch, " + (v ? "done" : "not done"));
-        setTimeout(function () { wpaint(true); }, still ? 0 : 380);
-      });
+      b.addEventListener("click", function () { wtap(b.dataset.k); });
       b.setAttribute("aria-label", lineById(b.dataset.k).title + " on Apple Watch, " + (wst[b.dataset.k] ? "done" : "not done"));
     });
     wlist.querySelectorAll(".ctl").forEach(function (c) { c.classList.add("no-anim-once"); });
     wpaint(false);
+    W = {
+      set: wset, show: wshow,
+      // The play's own tap: the row dips, as under a finger, then is marked.
+      tap: function (id) { var b = wrow(id); if (b && b.animate && !still) b.animate([{ transform: "scale(1)" }, { transform: "scale(.95)" }, { transform: "scale(1)" }], { duration: 240, easing: "ease-out" }); wtap(id); },
+      reset: function () {
+        wst = { run: 1 }; wseq = 3;
+        wlist.querySelectorAll(".ctl").forEach(function (c) { c.classList.add("no-anim-once"); });
+        wlist.querySelectorAll("button.wrow").forEach(function (b) { b.setAttribute("aria-label", lineById(b.dataset.k).title + " on Apple Watch, " + (wst[b.dataset.k] ? "done" : "not done")); });
+        wpaint(false); if (wscroll) wscroll.scrollTop = 0;
+      }
+    };
   }
   // The devices: plays once most of the iPhone, where the autoplay ticks, is on screen (the scene can be taller than the
   // window), and replays while it stays there.
-  loop(function () { return stageA.querySelector(".iphone") || stageA; }, 0.7, playA, 9000, stageA);
+  loop(function () { return stageA.querySelector(".iphone") || stageA; }, 0.7, playA, 10500, [stageA, RW && RW.getElementById("watchOnly")]);
 })();
