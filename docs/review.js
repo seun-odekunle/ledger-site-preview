@@ -7,7 +7,7 @@
     ["top", "The hero", "top"], ["join", "Join the beta", "join"], ["days", "Plan, get things done, reflect", "days"],
     ["weeks", "It keeps track, not score", "weeks"], ["graduate", "Habits you keep, then outgrow", "graduate"],
     ["journal", "The Journal", "journal"], ["health", "Health and Calendar", "health"],
-    ["devices", "Every device: the sync animation", "devices"], ["watch", "Apple Watch", "watch"],
+    ["devices", "The same Ledger on every device", "devices"],
     ["privacy", "Privacy", "privacy"], ["more", "The rest of it", "more"], ["price", "Try it, then pay once", "price"],
     ["faq", "Before you ask", "faq"], ["whole", "The page as a whole (order, pace, feel)", null]
   ];
