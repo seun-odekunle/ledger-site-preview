@@ -9,14 +9,14 @@
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#F2F6FF">
 <link rel="canonical" href="https://keepingledger.com/privacy">
-<link rel="icon" type="image/png" href="images/favicon.png?v=5a40f1e">
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=5a40f1e">
-<link rel="stylesheet" href="styles.css?v=5a40f1e">
-<link rel="stylesheet" href="bar.css?v=5a40f1e">
+<link rel="icon" type="image/png" href="images/favicon.png?v=db01f7d">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=db01f7d">
+<link rel="stylesheet" href="styles.css?v=db01f7d">
+<link rel="stylesheet" href="bar.css?v=db01f7d">
 </head>
 <body>
 <header class="top">
-<a class="brand" href="./"><img src="images/wordmark.svg?v=5a40f1e" alt="Ledger" width="132" height="63"></a>
+<a class="brand" href="./"><img src="images/wordmark.svg?v=db01f7d" alt="Ledger" width="132" height="63"></a>
 <nav aria-label="Pages"><a href="support">Support</a><a href="privacy" aria-current="page">Privacy</a></nav>
 <a class="get" data-when="beta" href="https://testflight.apple.com/join/m8k2vuhh">Join the beta</a><a class="get" data-when="launch" href="#" data-launch="App Store link">Download app</a>
 </header>
@@ -24,14 +24,14 @@
 
 <header class="page-header">
 <h1>Privacy</h1>
-<p class="updated">Last updated October 24, 2026</p>
-<p class="lede">This page explains what Ledger keeps, where it keeps it, and how to remove it. It covers the Ledger app on iPhone, iPad and Mac, and keepingledger.com. Ledger is made by Arca Holdings LLC.</p>
+<p class="updated">Last updated November 13, 2026</p>
+<p class="lede">This page explains what Ledger keeps, where it keeps it, and how to remove it. It covers the Ledger app on iPhone, iPad, Mac and Apple Watch, and keepingledger.com. Ledger is made by Arca Holdings LLC.</p>
 </header>
 
 <section>
 <h2>The short version</h2>
 <ul>
-<li>Ledger has no account. It never asks who you are.</li>
+<li>Ledger has no account. The only thing it asks about you is a name to greet you by, and you can leave that blank.</li>
 <li>The app has no analytics, no ads, no tracking, and no third-party code.</li>
 <li>What you put in Ledger stays on your devices and in your own iCloud. Arca Holdings can’t read it.</li>
 <li>Ledger reads Apple Health and Calendar on your device. Their readings aren’t copied to iCloud.</li>
@@ -44,7 +44,8 @@
 <h2>Where your data lives</h2>
 <p>Ledger keeps your habits, tasks, Areas and Journal on your device. It syncs them to your other devices through iCloud, in your private iCloud database. Only you can read it; Arca Holdings has no access to it.</p>
 <p>Journal text is end-to-end encrypted in iCloud. Photos, voice notes, drawings and place names in the Journal use iCloud’s standard protection, and so does the name of the device each change was made on. On iPhone and iPad that name is just “iPhone” or “iPad”; on a Mac it’s the name the Mac was given. All of these become end-to-end encrypted too if you turn on Advanced Data Protection for iCloud.</p>
-<p>Moods stay on the device you log them on. Ledger doesn’t sync them to your other devices, and they aren’t included in device backups. With Save to Health on, each mood is also saved to Health, as described below.</p>
+<p>If you give Ledger a name, it syncs through iCloud too, along with the settings that shape your days: when your day starts, the first day of your week, when you plan and review, and your mood and Journal preferences. These use iCloud’s standard protection. Arca Holdings can’t read them.</p>
+<p>On iPhone, iPad and Mac, moods stay on the device you log them on. Ledger doesn’t sync them to your other devices, and they aren’t included in device backups. On iPhone and iPad, with Save to Health on, each mood is also saved to Health, as described below.</p>
 <p>To stop syncing, turn off iCloud for Ledger in the iCloud section of the Settings app. Ledger then keeps everything on that device only.</p>
 </section>
 
@@ -52,7 +53,7 @@
 <h2>Apple Health</h2>
 <p>Ledger uses Apple Health only if you allow it, through Apple’s own permission screen.</p>
 <p>Ledger reads steps; walking, running, cycling and swimming distance; exercise minutes; active energy; water; caffeine; mindful minutes; sleep; workouts; and State of Mind. It uses them to fill in habits for you, to suggest a bedtime, and to show moods you logged in other apps.</p>
-<p>Ledger writes two things to Health: water you log by hand in Ledger, and your moods as State of Mind. Ledger saves moods to Health only if you choose to: the first time you log a mood, it asks, and nothing is saved until you choose Save. If you’ve already allowed State of Mind for Ledger in Health, it keeps saving. Change it any time in Settings › Mood › Save to Health. Deleting a mood in Ledger removes it from Health too.</p>
+<p>Ledger writes two things to Health: water you log by hand in Ledger, and your moods as State of Mind. Ledger saves moods to Health only if you choose to: the first time you log a mood, it asks, and nothing is saved until you choose Save. If you’ve already allowed State of Mind for Ledger in Health, it keeps saving. Change it any time in Settings › Mood › Save to Health. Deleting a mood in Ledger removes it from Health too. Ledger shows moods from Health that it didn’t save itself, such as ones from your Watch.</p>
 <p>Health amounts are read on your device and aren’t stored in iCloud. A copy of today’s amounts stays on the device for Ledger’s widgets. When Health meets a habit’s target, or a workout counts for a habit, Ledger records that the habit was done that day. That record syncs like any other check-in, without the amount or the workout’s details.</p>
 <p>Ledger never uses Health data for advertising or marketing, never shares it, and never sends it to Arca Holdings. To change what Ledger can read or write, open the Health app, tap your profile, then Apps › Ledger.</p>
 </section>
@@ -65,8 +66,16 @@
 </section>
 
 <section>
+<h2>Apple Watch</h2>
+<p>Ledger on Apple Watch syncs through the same private iCloud database as your other devices.</p>
+<p>It reads Health on the Watch to fill in habits. Those readings stay on the Watch and aren’t stored in iCloud.</p>
+<p>A mood you log on the Watch is saved to Health as State of Mind; Ledger doesn’t keep its own copy, so Health has to be allowed for it.</p>
+<p>When you speak a line on the Watch, Apple’s dictation turns it into text and Ledger receives only the text.</p>
+</section>
+
+<section>
 <h2>Voice</h2>
-<p>Speaking a line or recording a voice note uses the microphone and Apple’s speech recognition, on your device only. If your device can’t recognize speech itself, dictation doesn’t start.</p>
+<p>On iPhone, iPad and Mac, speaking a line or recording a voice note uses the microphone and Apple’s speech recognition, on your device only. If your device can’t recognize speech itself, dictation doesn’t start.</p>
 <p>Dictation keeps only the text. A voice note keeps its audio and its transcript, which sync with the rest of your Journal.</p>
 </section>
 
@@ -85,13 +94,13 @@
 
 <section>
 <h2>On-device intelligence</h2>
-<p>Ledger uses Apple’s on-device models to sort what you type into +, read handwriting in drawings, and find patterns for Insights. All of it runs on your device.</p>
+<p>Ledger uses Apple’s on-device models to sort what you type into + and to read handwriting in drawings. Insights are worked out by Ledger itself. All of it runs on your device.</p>
 </section>
 
 <section>
 <h2>Reminders, Siri and widgets</h2>
 <p>Reminders are scheduled on your device. Ledger uses no push server; iCloud may wake Ledger silently to sync.</p>
-<p>Habit and task names are available to Siri, Shortcuts and Ledger’s widgets on your device. Ledger adds nothing to Spotlight.</p>
+<p>Habit and task names are available to Siri, Shortcuts and Ledger’s widgets on your device. Ledger adds the names of your habits, open tasks and Areas to Spotlight on your device, so search and Siri can find them. It never adds Journal entries, moods or Health values.</p>
 </section>
 
 <section>
@@ -121,7 +130,7 @@
 <section>
 <h2>Exporting and deleting</h2>
 <p>Settings › Export saves everything as a file: habits, tasks, Areas, check-ins, the moods logged on that device, and the Journal if you include it. Export is always available, before or after buying.</p>
-<p>Delete everything, in Settings › iCloud sync, removes your Ledger data from this device and, through iCloud, from your other devices. Moods and settings are kept on each device separately, so use Delete everything on each device to remove them there too.</p>
+<p>Delete everything, in Settings › iCloud sync, removes your Ledger data from this device and, through iCloud, from your other devices. Delete everything also removes your name and synced settings from iCloud. Moods, and settings that belong to one device, are kept on each device separately, so use Delete everything on each device to remove them there too.</p>
 <p>Delete everything doesn’t remove water or moods Ledger saved to Health, or events it added to your calendar. Remove those in Health or Calendar.</p>
 <p>Deleting the app removes its data from that device only. Data in iCloud stays until you use Delete everything, or remove Ledger’s data in the iCloud section of the Settings app.</p>
 </section>
@@ -133,6 +142,7 @@
 
 <section>
 <h2>Changes</h2>
+<p>November 13, 2026 · Added Apple Watch. Ledger now adds habit, task and Area names to Spotlight on your device, and syncs your name and some settings through iCloud. Corrected how Insights are worked out.</p>
 <p>October 24, 2026 · keepingledger.com now counts visits with Cloudflare Web Analytics (no cookies). The app is unchanged.</p>
 <p>October 16, 2026 · First version, for Ledger 2.0.</p>
 </section>

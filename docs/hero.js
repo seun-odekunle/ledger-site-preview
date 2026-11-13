@@ -65,7 +65,7 @@
 
   var app = host.attachShadow({ mode: "open" });
   app.innerHTML =
-    '<link rel="stylesheet" href="hero-app.css?v=5a40f1e">' +
+    '<link rel="stylesheet" href="hero-app.css?v=db01f7d">' +
     '<div class="sbar"><b id="clk">7:02</b><span>' + SIG + "</span></div>" +
     // Today
     '<div class="view" id="vToday"><div class="head"><div class="greet" id="greet">Morning, Sam</div><div class="trow"><h3><span>' + DAY + "</span>" + CHEV + "</h3>" + HBTN + "</div>" +
