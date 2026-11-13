@@ -26,7 +26,7 @@
     return [].slice.call(h.querySelectorAll(".w"));
   }
   var heads = [];
-  ["#join", "#days", "#weeks", "#graduate", "#journal", "#health", "#devices", "#privacy .sec", "#more", "#price", "#faq", "#evening"].forEach(function (sel) {
+  ["#join", "#days", "#weeks", "#graduate", "#journal", "#health", "#devices", "#privacy", "#more", "#price", "#faq", "#evening"].forEach(function (sel) {
     var el = day.querySelector(sel); if (!el) return;
     el.setAttribute("data-sec", "");
     [].forEach.call(el.querySelectorAll("h2"), function (h) { heads.push({ el: h, words: inkable(h), shown: reduce }); });

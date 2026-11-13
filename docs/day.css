@@ -92,6 +92,8 @@ h1 b, h2 b { color: var(--accent); font-weight: inherit; }
 /* A section that runs the full width: its points sit side by side, and its devices below them */
 .sec.stack .copy.wide { max-width: none; }
 @media (min-width: 900px) { .points.row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; align-items: start; } }
+.points b svg { width: 1.15em; height: 1.15em; vertical-align: -0.2em; margin-right: 7px; color: var(--accent); }
+.copy.wide .more { margin-top: 10px; font-size: 17px; }
 .dev-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 40px; align-items: end; }
 @media (max-width: 899px) { .dev-row { grid-template-columns: minmax(0, 1fr); justify-items: center; } .dev-row .mo { width: 100%; } }      /* one phone standing by itself in a section */
 #grad-tile .badge-stage svg.badge { width: min(360px, 100%); }      /* the badge stands alone now, so it is larger */
