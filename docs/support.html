@@ -5,18 +5,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Support · Ledger</title>
-<meta name="description" content="Send feedback on the Ledger beta, and answers to common questions.">
+<meta name="description" content="Help with Ledger: answers to common questions, and how to reach us.">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#F2F6FF">
 <link rel="canonical" href="https://keepingledger.com/support">
-<link rel="icon" type="image/png" href="images/favicon.png?v=db01f7d">
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=db01f7d">
-<link rel="stylesheet" href="styles.css?v=db01f7d">
-<link rel="stylesheet" href="bar.css?v=db01f7d">
+<link rel="icon" type="image/png" href="images/favicon.png?v=4c99450">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=4c99450">
+<link rel="stylesheet" href="styles.css?v=4c99450">
+<link rel="stylesheet" href="bar.css?v=4c99450">
 </head>
 <body>
 <header class="top">
-<a class="brand" href="./"><img src="images/wordmark.svg?v=db01f7d" alt="Ledger" width="132" height="63"></a>
+<a class="brand" href="./"><img src="images/wordmark.svg?v=4c99450" alt="Ledger" width="132" height="63"></a>
 <nav aria-label="Pages"><a href="support" aria-current="page">Support</a><a href="privacy">Privacy</a></nav>
 <a class="get" data-when="beta" href="https://testflight.apple.com/join/m8k2vuhh">Join the beta</a><a class="get" data-when="launch" href="#" data-launch="App Store link">Download app</a>
 </header>
@@ -24,10 +24,11 @@
 
 <header class="page-header">
 <h1>Support</h1>
-<p class="lede">Ledger is in beta on TestFlight. Here’s how to send feedback, and answers to common questions.</p>
+<p class="lede" data-when="beta">Ledger is in beta on TestFlight. Here’s how to send feedback, and answers to common questions.</p>
+<p class="lede" data-when="launch">Answers to common questions, and how to reach us.</p>
 </header>
 
-<section>
+<section data-when="beta">
 <h2>Send feedback</h2>
 <ol>
 <li>Take a screenshot anywhere in Ledger.</li>
@@ -46,7 +47,11 @@
 <div class="qa"><h3>Why didn’t Health fill in a habit?</h3><p>Check that Ledger can read that kind of data: in the Health app, tap your profile, then Apps › Ledger. The habit also needs Health set as its source.</p></div>
 <div class="qa"><h3>How do I export my data?</h3><p>Settings › Export saves everything as a file, with the Journal if you include it.</p></div>
 <div class="qa"><h3>How do I delete everything?</h3><p>Settings › iCloud sync › Delete everything removes your Ledger data from all your devices and iCloud. Water and moods saved to Health, and events added to your calendar, stay where they are.</p></div>
-<div class="qa"><h3>What will Ledger cost?</h3><p>The beta is free. At launch, Ledger is free for two weeks, then Ledger Lifetime is $29.99, once. There’s no subscription.</p></div>
+<div class="qa" data-when="beta"><h3>What will Ledger cost?</h3><p>The beta is free. At launch, Ledger is free for two weeks, then Ledger Lifetime is $29.99, once. There’s no subscription.</p></div>
+<div class="qa" data-when="launch"><h3>What does Ledger cost?</h3><p>Ledger is free for two weeks with everything on. After that, Ledger Lifetime is $29.99, once, for iPhone, iPad, Mac and Apple Watch. There’s no subscription.</p></div>
+<div class="qa" data-when="launch"><h3>Do I have to cancel the trial?</h3><p>No. Nothing is charged when the two weeks end. Ledger becomes read-only until you unlock it: every page is still there, and you can still export.</p></div>
+<div class="qa" data-when="launch"><h3>I bought Ledger. How do I unlock it on another device?</h3><p>Sign in with the same Apple Account on that device. Ledger checks when it opens and unlocks by itself. If it doesn’t, choose Restore purchase in Ledger’s Settings.</p></div>
+<div class="qa" data-when="launch"><h3>How do I get a refund?</h3><p>Purchases are handled by Apple. Ask at <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>.</p></div>
 </div>
 </section>
 
