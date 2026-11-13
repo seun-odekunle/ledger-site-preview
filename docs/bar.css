@@ -29,7 +29,6 @@
 .top nav a[aria-current="page"] { color: #13141C; font-weight: 600; }
 .top .get { flex: none; display: inline-flex; align-items: center; padding: 11px 18px; border-radius: 999px; background: var(--accent, #2640BF); color: #F2F6FF; font-size: 15px; font-weight: 600; line-height: 1; text-decoration: none; white-space: nowrap;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28); transition: transform 200ms cubic-bezier(.25, 1, .5, 1), box-shadow 200ms ease, background 250ms ease, color 250ms ease; }
-.top .get .short { display: none; }
 .top .get:active { transform: scale(.97); }
 .top a:focus-visible { outline: 2px solid var(--accent, #2640BF); outline-offset: 3px; border-radius: 8px; }
 @media (hover: hover) { .top .get:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 10px 22px -10px rgba(38, 64, 191, .7); } }
@@ -49,16 +48,13 @@
   .top { padding: 7px 7px 7px 14px; gap: 8px 12px; }
   .top .brand img { width: 74px; }
   .top nav { gap: 13px; font-size: 15px; }
-  .top .get { padding: 10px 14px; } .top .get .long { display: none; } .top .get .short { display: inline; }
-  .top .get[data-when="launch"] { padding: 10px 11px; font-size: 14px; }   /* "Download" is longer than "Beta": a little tighter so it fits a small phone */
+  .top .get { padding: 10px 14px; }
 }
-/* "Download app" in full wherever it fits: down to 440 px. Narrower than that, "Download". */
-@media (min-width: 440px) and (max-width: 560px) { .top .get[data-when="launch"] .long { display: inline; } .top .get[data-when="launch"] .short { display: none; } }
-/* Small phones: everything a little closer, so the launch button's "Download" fits beside the three links */
+/* Small phones: everything a little closer, so the button's words ("Join the beta", "Download app") fit in full */
 @media (max-width: 430px) {
   .top { padding-left: 12px; gap: 8px 9px; }
   .top .brand img { width: 68px; }
-  .top nav { gap: 8px; font-size: 14px; }
-  .top .get[data-when="launch"] { padding: 10px 10px; }
+  .top nav { gap: 9px; font-size: 14px; }
+  .top .get { padding: 10px 11px; font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) { .top, .top *, .top::before { transition: none; } }
